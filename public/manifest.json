@@ -1,0 +1,19 @@
+{
+    "name": "FormIO_PWA",
+    "short_name": "FormIO_PWA",
+    "icons": [
+        {
+            "src": "/img/icons/msapplication-icon-144x144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        }
+    ],
+    "start_url": "./index.html",
+    "display": "minimal-ui",
+    "orientation": "portrait-primary",
+    "background_color": "#FFFFFF", 
+    "theme_color": "#FFFFFF", 
+    "description": "FormIO_PWA",
+    "dir": "ltr",
+    "lang": "zh-Hant-TW"
+}
