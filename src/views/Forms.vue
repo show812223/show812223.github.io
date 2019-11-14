@@ -10,6 +10,7 @@ import { Form } from 'vue-formio'
 import Token from '../API/Token'
 import APIForm from '../API/ApiForm'
 import uuidv1 from 'uuid/v1'
+import * as db from '../db/indexedDB.js'
 
 export default {
   name: 'forms',
@@ -29,9 +30,17 @@ export default {
   methods: {
     submit (submission) {
       this.setFormResultToObject(submission).then(result => {
-        // idb.writeData(idb.SYNC_POST, result).then(() => {
-        //   console.log('表單儲存在idb')
-        // })
+        db.writeData(db.SYNC_POST, result).then(() => {
+          navigator.serviceWorker.ready.then(sw => {
+            sw.sync.register('sync-new-post')
+              .then(() => {
+                console.log('background sync 已觸發')
+              })
+              .catch(() => {
+                console.log('background sync 觸發失敗')
+              })
+          })
+        })
       })
     },
     setFormResultToObject (submission) {

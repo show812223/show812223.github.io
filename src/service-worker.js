@@ -1,6 +1,6 @@
 
-importScripts('/js/idb.js')
-importScripts('/js/indexedDB.js')
+importScripts('/db/idb.js')
+importScripts('/db/indexedDB.js')
 
 const CACHE_STATIC = 'PWA_Cache'
 const CACHE_DYNAMIC = 'Dynamic'
@@ -93,6 +93,7 @@ async function fetchAsync (event) {
 }
 
 function syncAsync (event) {
+  console.log('[SW] Sync')
   if (event.tag === 'sync-new-post') {
     readAllData(SYNC_POST)
       .then(function (datas) {
