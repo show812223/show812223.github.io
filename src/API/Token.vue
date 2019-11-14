@@ -1,6 +1,6 @@
 <script>
 // import { mapActions } from 'vuex'
-import store from '../../store'
+import store from '../store'
 
 const myUsername = 'hankhu@webim.com.tw'
 const myPassword = 's27h27o27w27'

@@ -1,13 +1,15 @@
 <template>
   <div>
-    <formio id='formRender' :form='formComponent'></formio>
+    <v-text-field  label="標題" outlined v-model="title"></v-text-field>
+    <formio id='formRender' :form='formComponent' v-on:submit='submit'></formio>
   </div>
 </template>
 
 <script>
 import { Form } from 'vue-formio'
-import Token from '../components/API/Token'
-import APIForm from '../components/API/ApiForm'
+import Token from '../API/Token'
+import APIForm from '../API/ApiForm'
+import uuidv1 from 'uuid/v1'
 
 export default {
   name: 'forms',
@@ -15,30 +17,53 @@ export default {
     return {
       formComponent: {
         display: 'form',
-        components: this.components
+        components: []
       },
-      components: []
+      title: ''
     }
   },
   components: {
     formio: Form
   },
   props: [],
-  methods: {},
+  methods: {
+    submit (submission) {
+      this.setFormResultToObject(submission).then(result => {
+        // idb.writeData(idb.SYNC_POST, result).then(() => {
+        //   console.log('表單儲存在idb')
+        // })
+      })
+    },
+    setFormResultToObject (submission) {
+      return new Promise(resolve => {
+        var obj = {}
+        obj.id = uuidv1()
+        obj.title = this.$data.title
+        obj.formResult = {
+          formId: '0d86a364-9fb8-4ee6-81df-f103636ca293',
+          formData: submission,
+          projectId: '1'
+        }
+        obj.formId = '0d86a364-9fb8-4ee6-81df-f103636ca293'
+        obj.formVersionId = 122
+        obj.templsteId = 99
+        obj.projectId = 1
+        obj.parentResultId = ''
+        obj.date = Date.now()
+        resolve(obj)
+      })
+    }
+  },
   beforeMount () {
     Token.getToken().then(token => {
       APIForm.getForm(token).then(obj => {
         this.formComponent = {
           display: 'form',
-          components: obj['Components'] }
-        //   .then(form => {
-        //     console.log('FormIO 表單設定完成')
-        //     form.on('submit', function (submission) {
-        //       console.log('送單')
-        //     })
-        //   })
+          components: obj['Components']
+        }
       })
     })
   }
 }
+
 </script>
