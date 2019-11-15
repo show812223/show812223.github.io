@@ -1,7 +1,6 @@
-
-importScripts('/db/idb.js')
 importScripts('/db/indexedDB.js')
-
+const DB_NAME = 'FormData'
+const SYNC_POST = 'sync_post'
 const CACHE_STATIC = 'PWA_Cache'
 const CACHE_DYNAMIC = 'Dynamic'
 const STATIC_URLS = [
@@ -97,10 +96,10 @@ function syncAsync (event) {
   if (event.tag === 'sync-new-post') {
     readAllData(SYNC_POST)
       .then(function (datas) {
-        // console.log("readSyncData success",datas)
+        console.log("readSyncData success",datas)
         for (var data of datas) {
           console.log('[SW] sync DB Data', data)
-          fetchFormData(data)
+          apiForm.postFormResult(data)
         }
       })
       .catch(function (err) {
@@ -108,3 +107,5 @@ function syncAsync (event) {
       })
   }
 }
+
+

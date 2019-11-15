@@ -1,13 +1,9 @@
-<script>
-// import { mapActions } from 'vuex'
 import store from '../store'
+import db from '../../'
 
-const myUsername = 'hankhu@webim.com.tw'
-const myPassword = 's27h27o27w27'
-const baseURL = 'https://stanteccms-dev.webim.io/'
-const apiToken = baseURL + 'api/token'
-var token = ''
-function getToken () {
+export const apiToken = store.getters.getBaseURL + 'api/token'
+export var token = ''
+export function getToken () {
   var url = apiToken
   return new Promise(function (resolve, reject) {
     fetch(url, {
@@ -17,10 +13,10 @@ function getToken () {
       },
       body:
         'grant_type=password&username=' +
-        myUsername +
+        store.getters.getUsername +
         '&' +
         'password=' +
-        myPassword
+        store.getters.getPassword
     })
       .then(function (response) {
         response
@@ -42,13 +38,3 @@ function getToken () {
       })
   })
 }
-
-export default {
-  myUsername,
-  myPassword,
-  baseURL,
-  apiToken,
-  token,
-  getToken
-}
-</script>

@@ -1,4 +1,4 @@
-export var exp = {
+var exp = {
   open: function (name, version, upgradeCallback) {
     var p = promisifyRequestCall(indexedDB, 'open', [name, version])
     var request = p.request
@@ -298,7 +298,6 @@ proxyMethods(DB, '_db', IDBDatabase, [
 })
 
 // if (typeof module !== 'undefined') {
-//   console.log('Hiiiiiiiiiii')
 //   module.exports = exp
 //   module.exports.default = module.exports
 // } else {

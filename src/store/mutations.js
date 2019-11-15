@@ -3,7 +3,10 @@ import * as types from './mutations_type.js'
 
 // state
 export const state = {
-  token: ''
+  baseURL: 'https://stanteccms-dev.webim.io/',
+  token: '',
+  username: 'hankhu@webim.com.tw',
+  password: 's27h27o27w27'
 }
 
 // mutations

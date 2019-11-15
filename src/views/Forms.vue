@@ -7,8 +7,8 @@
 
 <script>
 import { Form } from 'vue-formio'
-import Token from '../API/Token'
-import APIForm from '../API/ApiForm'
+import * as Token from '../API/Token'
+import * as APIForm from '../API/ApiForm'
 import uuidv1 from 'uuid/v1'
 import * as db from '../db/indexedDB.js'
 
@@ -20,7 +20,8 @@ export default {
         display: 'form',
         components: []
       },
-      title: ''
+      title: '',
+      publicPath: process.env.BASE_URL
     }
   },
   components: {
@@ -65,7 +66,7 @@ export default {
   },
   beforeMount () {
     Token.getToken().then(token => {
-      APIForm.getForm(token).then(obj => {
+      APIForm.getForm().then(obj => {
         this.formComponent = {
           display: 'form',
           components: obj['Components']
