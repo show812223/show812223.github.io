@@ -2,11 +2,14 @@ import { exp } from './idb'
 export const DB_NAME = 'FormData'
 export const DB_VERSION = 1
 export const SYNC_POST = 'sync_post'
-export const WorkBox_Sync = 'WorkBox_Sync'
+export const TOKEN = 'token'
 
 var dbPromise = exp.open(DB_NAME, 1, function (db) {
   if (!db.objectStoreNames.contains(SYNC_POST)) {
     db.createObjectStore(SYNC_POST, { keyPath: 'id' })
+  }
+  if (!db.objectStoreNames.contains(TOKEN)) {
+    db.createObjectStore(TOKEN, { keyPath: 'id' })
   }
 })
 
@@ -21,19 +24,14 @@ export function writeData (table, data) {
     })
 }
 
-function readData (table, key) {
-  return dbPromise.then(function (db) {
-    var transaction = db.transaction([table], 'readonly')
-    var store = transaction.objectStore(table)
-    var request = store.get(key)
-    request.onsuccess = function (event) {
-      console.log('Read Data', request.result)
-      return request.result
-    }
-    request.onerror = function (event) {
-      return request.result
-    }
-  })
+export function readData (table, key) {
+  return dbPromise.then(function(db) {
+    var tx = db.transaction(table, 'readonly');
+    var store = tx.objectStore(table);
+    return store.get(key);
+  }).then(function(val) {
+    return val
+  });
 }
 
 export function readAllData (table) {

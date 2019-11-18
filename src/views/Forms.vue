@@ -31,20 +31,18 @@ export default {
   methods: {
     submit (submission) {
       this.setFormResultToObject(submission).then(result => {
-        APIForm.postFormResult(result)
-
-
-        // db.writeData(db.SYNC_POST, result).then(() => {
-        //   navigator.serviceWorker.ready.then(sw => {
-        //     sw.sync.register('sync-new-post')
-        //       .then(() => {
-        //         console.log('background sync 已觸發')
-        //       })
-        //       .catch(() => {
-        //         console.log('background sync 觸發失敗')
-        //       })
-        //   })
-        // })
+        
+        db.writeData(db.SYNC_POST, result).then(() => {
+          navigator.serviceWorker.ready.then(sw => {
+            APIForm.postFormResult(result)
+              // .then(() => {
+              //   console.log('background sync 已觸發')
+              // })
+              // .catch(() => {
+              //   console.log('background sync 觸發失敗')
+              // })
+          })
+        })
       })
     },
     setFormResultToObject (submission) {

@@ -4,7 +4,7 @@ import * as types from './mutations_type.js'
 // state
 export const state = {
   baseURL: 'https://stanteccms-dev.webim.io/',
-  token: '',
+  token: '123',
   username: 'hankhu@webim.com.tw',
   password: 's27h27o27w27'
 }

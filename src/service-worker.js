@@ -23,7 +23,48 @@ const API_URLS = [
   'api/token'
 ]
 
+// background佇列
 const queue = new workbox.backgroundSync.Queue('myQueueName');
+
+workbox.routing.registerRoute(
+  new RegExp('.*\.js'),
+  workbox.strategies.networkFirst()
+);
+
+workbox.routing.registerRoute(
+  // Cache CSS files
+  /.*\.css/,
+  // Use cache but update in the background ASAP
+  workbox.strategies.staleWhileRevalidate({
+    // Use a custom cache name
+    cacheName: 'css-cache',
+  })
+);
+
+workbox.routing.registerRoute(
+  // Cache image files
+  /.*\.(?:png|jpg|jpeg|svg|gif)/,
+  // Use the cache if it's available
+  workbox.strategies.cacheFirst({
+    // Use a custom cache name
+    cacheName: 'image-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        // Cache only 20 images
+        maxEntries: 20,
+        // Cache for a maximum of a week
+        maxAgeSeconds: 7 * 24 * 60 * 60,
+      })
+    ],
+  })
+);
+
+workbox.routing.registerRoute(
+  'https://stanteccms-dev.webim.io/api/Form/0d86a364-9fb8-4ee6-81df-f103636ca293',
+  new workbox.strategies.NetworkFirst({
+    cacheName: 'form-cache',
+  }),
+);
 
 
 self.addEventListener('install', function (event) {
@@ -35,8 +76,17 @@ self.addEventListener('activate', function (event) {
   event.waitUntil(activeAsync())
 })
 self.addEventListener('fetch', function (event) {
-  // console.log('[SW]Fetch',event)
-  event.respondWith(fetchAsync(event))
+ // console.log('[SW]Fetch',event)
+ console.log('fetch method', event.request.method)
+ if (event.request.method === 'GET'){
+   event.respondWith(fetchAsync(event))
+ } else{
+   // POST失敗會將request存到 indexedDB
+   var promiseChain = fetch(event.request.clone()).catch(err => {
+     return queue.pushRequest({request: event.request})
+   })
+   event.waitUntil(promiseChain)
+ }
 })
 
 self.addEventListener('error', function (event) {
@@ -47,10 +97,10 @@ self.addEventListener('message', function (event) {
   console.log('[SW]Message')
 })
 
-self.addEventListener('sync', function (event) {
-  console.log('[SW] Sync, tag: ' + event.tag)
-  event.waitUntil(syncAsync(event))
-})
+// self.addEventListener('sync', function (event) {
+//   console.log('[SW] Sync, tag: ' + event.tag)
+//   event.waitUntil(syncAsync(event))
+// })
 
 // functions
 async function installAsync (event) {
@@ -101,22 +151,21 @@ async function fetchAsync (event) {
   
 }
 
-function syncAsync (event) {
-  console.log('[SW] Sync')
-  if (event.tag === 'sync-new-post') {
-    syncFormResults()
-    // readAllData(SYNC_POST)
-    //   .then(function (datas) {
-    //     console.log("readSyncData success",datas)
-    //     for (var data of datas) {
-    //       console.log('[SW] sync DB Data', data)
-    //       apiForm.postFormResult(data)
-    //     }
-    //   })
-    //   .catch(function (err) {
-    //     console.log('readSyncData Error', err)
-    //   })
-  }
-}
+// function syncAsync (event) {
+//   console.log('[SW] Sync')
+//   if (event.tag === 'sync-new-post') {
+//     readAllData(SYNC_POST)
+//       .then(function (datas) {
+//         console.log("readSyncData success",datas)
+//         for (var data of datas) {
+//           console.log('[SW] sync DB Data', data)
+//           apiForm.postFormResult(data)
+//         }
+//       })
+//       .catch(function (err) {
+//         console.log('readSyncData Error', err)
+//       })
+//   }
+// }
 
 

@@ -1,5 +1,5 @@
 import store from '../store'
-import db from '../db/indexedDB'
+import * as db from '../db/indexedDB'
 
 export const apiToken = store.getters.getBaseURL + 'api/token'
 export var token = ''
@@ -26,7 +26,12 @@ export function getToken () {
             console.log('get token', jsonData)
             var obj = jsonData
             token = obj['access_token']
-            store.dispatch('setToken', token).then(() => {
+            let data = new Object
+            data.id = "token"
+            data.token = token
+
+            db.writeData(db.TOKEN, data)
+            .then(() => {
               return resolve(token)
             }).catch((error) => {
               return reject(error)
@@ -34,7 +39,10 @@ export function getToken () {
           })
       })
       .catch(function (error) {
-        return reject(error)
+        db.readData(db.TOKEN, "token").then(data => {
+          console.log('get offline token', data.token)
+          return resolve(data.token)
+        })
       })
   })
 }
