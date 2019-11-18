@@ -2,6 +2,7 @@ import { exp } from './idb'
 export const DB_NAME = 'FormData'
 export const DB_VERSION = 1
 export const SYNC_POST = 'sync_post'
+export const WorkBox_Sync = 'WorkBox_Sync'
 
 var dbPromise = exp.open(DB_NAME, 1, function (db) {
   if (!db.objectStoreNames.contains(SYNC_POST)) {

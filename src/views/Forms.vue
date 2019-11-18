@@ -31,17 +31,20 @@ export default {
   methods: {
     submit (submission) {
       this.setFormResultToObject(submission).then(result => {
-        db.writeData(db.SYNC_POST, result).then(() => {
-          navigator.serviceWorker.ready.then(sw => {
-            sw.sync.register('sync-new-post')
-              .then(() => {
-                console.log('background sync 已觸發')
-              })
-              .catch(() => {
-                console.log('background sync 觸發失敗')
-              })
-          })
-        })
+        APIForm.postFormResult(result)
+
+
+        // db.writeData(db.SYNC_POST, result).then(() => {
+        //   navigator.serviceWorker.ready.then(sw => {
+        //     sw.sync.register('sync-new-post')
+        //       .then(() => {
+        //         console.log('background sync 已觸發')
+        //       })
+        //       .catch(() => {
+        //         console.log('background sync 觸發失敗')
+        //       })
+        //   })
+        // })
       })
     },
     setFormResultToObject (submission) {
@@ -49,11 +52,12 @@ export default {
         var obj = {}
         obj.id = uuidv1()
         obj.title = this.$data.title
-        obj.formResult = {
+        var res =  {
           formId: '0d86a364-9fb8-4ee6-81df-f103636ca293',
           formData: submission,
           projectId: '1'
         }
+        obj.formResult = JSON.stringify(res)
         obj.formId = '0d86a364-9fb8-4ee6-81df-f103636ca293'
         obj.formVersionId = 122
         obj.templsteId = 99

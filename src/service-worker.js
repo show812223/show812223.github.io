@@ -1,4 +1,4 @@
-importScripts('/db/indexedDB.js')
+
 const DB_NAME = 'FormData'
 const SYNC_POST = 'sync_post'
 const CACHE_STATIC = 'PWA_Cache'
@@ -22,6 +22,8 @@ const STATIC_URLS = [
 const API_URLS = [
   'api/token'
 ]
+
+const queue = new workbox.backgroundSync.Queue('myQueueName');
 
 
 self.addEventListener('install', function (event) {
@@ -87,24 +89,33 @@ async function fetchAsync (event) {
     caches.open(CACHE_DYNAMIC).then((cache) => cache.add(event.request))
     console.log('🔵 save Cache', event.request.url)
   }
+  // 請求失敗加入sync佇列
+  const promiseChain = fetch(event.request.clone())
+  .catch((err) => {
+      console.log('promiseChain', err)
+      return queue.pushRequest({request: event.request});
+  });
   // 緩存沒資料就跟伺服器要資料  儲存cache
   return fetch(event.request)
+
+  
 }
 
 function syncAsync (event) {
   console.log('[SW] Sync')
   if (event.tag === 'sync-new-post') {
-    readAllData(SYNC_POST)
-      .then(function (datas) {
-        console.log("readSyncData success",datas)
-        for (var data of datas) {
-          console.log('[SW] sync DB Data', data)
-          apiForm.postFormResult(data)
-        }
-      })
-      .catch(function (err) {
-        console.log('readSyncData Error', err)
-      })
+    syncFormResults()
+    // readAllData(SYNC_POST)
+    //   .then(function (datas) {
+    //     console.log("readSyncData success",datas)
+    //     for (var data of datas) {
+    //       console.log('[SW] sync DB Data', data)
+    //       apiForm.postFormResult(data)
+    //     }
+    //   })
+    //   .catch(function (err) {
+    //     console.log('readSyncData Error', err)
+    //   })
   }
 }
 

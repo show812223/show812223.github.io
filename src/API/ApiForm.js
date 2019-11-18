@@ -28,37 +28,24 @@ export function postFormResult (data) {
   var formResult = data['formResult']
   var jsonString = JSON.stringify(formResult)
   var id = data['id']
-  console.log('fetch form data', id)
+  console.log('fetch form data', data)
   var token = store.getters.getToken
-  var url =
-    store.getters.getBaseURL + 'api/Result' +
-    data['formId'] +
-    '?projectId=' +
-    data['projectId'] +
-    '&resultId=' +
-    data['id'] +
-    '&title=' +
-    data['title'] +
-    '&templateId=' +
-    data['templsteId'] +
-    'versionId=' +
-    data['formVersionId']
-  console.log(url)
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/jsoncharset=UTF-8',
-      Authorization: 'Bearer ' + token
-    },
-    body: jsonString
-  })
-    .then(function (response) {
-      console.log('送出表單', response)
-      if (response.ok) {
-        db.deleteData(db.SYNC_POST, id)
-      }
-    })
-    .catch(function (error) {
-      console.log('POST表單失敗', error)
+  var url = store.getters.getBaseURL + "api/Result/"+data["formId"]+
+    "?projectId="+data["projectId"]+"&resultId="+data["id"]+"&title="+data["title"]+"&templateId="+data["templsteId"]+"versionId="+data["formVersionId"]
+    console.log(url) 
+    fetch(url,{
+        method:'POST',
+        headers:{
+            "Content-type": "application/json;charset=UTF-8",
+            "Authorization":"Bearer "+token
+        },
+        body:jsonString
+    }).then(function(response){
+        console.log("送出表單",response)
+        if(response.ok){
+            deleteData(SYNC_POST,id)
+        }
+    }).catch(function(error){
+        console.log("POST表單失敗",error)
     })
 }
