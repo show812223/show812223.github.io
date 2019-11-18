@@ -10,7 +10,7 @@ import { Form } from 'vue-formio'
 import * as Token from '../API/Token'
 import * as APIForm from '../API/ApiForm'
 import uuidv1 from 'uuid/v1'
-import * as db from '../db/indexedDB.js'
+import * as db from '../db/indexedDB'
 
 export default {
   name: 'forms',

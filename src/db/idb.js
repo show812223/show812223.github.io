@@ -1,4 +1,4 @@
-var exp = {
+export var exp = {
   open: function (name, version, upgradeCallback) {
     var p = promisifyRequestCall(indexedDB, 'open', [name, version])
     var request = p.request

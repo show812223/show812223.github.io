@@ -1,8 +1,7 @@
-importScripts('/db/idb.js')
-
-const DB_NAME = 'FormData'
-const DB_VERSION = 1
-const SYNC_POST = 'sync_post'
+import { exp } from './idb'
+export const DB_NAME = 'FormData'
+export const DB_VERSION = 1
+export const SYNC_POST = 'sync_post'
 
 var dbPromise = exp.open(DB_NAME, 1, function (db) {
   if (!db.objectStoreNames.contains(SYNC_POST)) {
@@ -10,7 +9,7 @@ var dbPromise = exp.open(DB_NAME, 1, function (db) {
   }
 })
 
-function writeData (table, data) {
+export function writeData (table, data) {
   return dbPromise
     .then(function (db) {
       console.log('writeData', db)
@@ -36,7 +35,7 @@ function readData (table, key) {
   })
 }
 
-function readAllData (table) {
+export function readAllData (table) {
   return dbPromise
     .then(function (db) {
       var transaction = db.transaction(table, 'readonly')
@@ -45,7 +44,7 @@ function readAllData (table) {
     })
 }
 
-function deleteData (table, key) {
+export function deleteData (table, key) {
   return dbPromise.then(function (db) {
     var transaction = db.transaction(table, 'readwrite')
     var store = transaction.objectStore(table)

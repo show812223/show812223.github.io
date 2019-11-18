@@ -1,5 +1,5 @@
 import store from '../store'
-import db from '../../'
+import db from '../db/indexedDB'
 
 export const apiToken = store.getters.getBaseURL + 'api/token'
 export var token = ''
