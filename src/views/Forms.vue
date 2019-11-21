@@ -31,16 +31,10 @@ export default {
   methods: {
     submit (submission) {
       this.setFormResultToObject(submission).then(result => {
-        
         db.writeData(db.SYNC_POST, result).then(() => {
           navigator.serviceWorker.ready.then(sw => {
-            APIForm.postFormResult(result)
-              // .then(() => {
-              //   console.log('background sync 已觸發')
-              // })
-              // .catch(() => {
-              //   console.log('background sync 觸發失敗')
-              // })
+            sw.sync.register('sync-formResult')
+            // APIForm.postFormResult(result)
           })
         })
       })

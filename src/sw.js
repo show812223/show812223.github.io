@@ -1,6 +1,7 @@
 
-const DB_NAME = 'FormData'
-const SYNC_POST = 'sync_post'
+importScripts('/js/db/p_idb.js');
+importScripts('/js/db/p_indexedDB.js')
+importScripts('/js/swActions.js')
 const CACHE_STATIC = 'PWA_Cache'
 const CACHE_DYNAMIC = 'Dynamic'
 const STATIC_URLS = [
@@ -24,7 +25,21 @@ const API_URLS = [
 ]
 
 // background佇列
-const queue = new workbox.backgroundSync.Queue('myQueueName');
+const queue = new workbox.backgroundSync.Queue('myQueueName', {
+  onSync: async ({queue}) => {
+    let entry;
+    while (entry = await queue.shiftRequest()) {
+      try {
+        await fetch(entry.request);
+      } catch (error) {
+        await queue.unshiftRequest(entry);
+        return;
+      }
+    }
+    console.log('Replay complete!');
+  }
+});
+
 
 workbox.routing.registerRoute(
   new RegExp('.*\.js'),
@@ -63,7 +78,7 @@ workbox.routing.registerRoute(
   'https://stanteccms-dev.webim.io/api/Form/0d86a364-9fb8-4ee6-81df-f103636ca293',
   new workbox.strategies.NetworkFirst({
     cacheName: 'form-cache',
-  }),
+  })
 );
 
 
@@ -76,12 +91,13 @@ self.addEventListener('activate', function (event) {
   event.waitUntil(activeAsync())
 })
 self.addEventListener('fetch', function (event) {
- // console.log('[SW]Fetch',event)
+ console.log('[SW]Fetch',event)
  console.log('fetch method', event.request.method)
  if (event.request.method === 'GET'){
    event.respondWith(fetchAsync(event))
  } else{
    // POST失敗會將request存到 indexedDB
+   console.log('POST ', event.request)
    var promiseChain = fetch(event.request.clone()).catch(err => {
      return queue.pushRequest({request: event.request})
    })
@@ -97,10 +113,10 @@ self.addEventListener('message', function (event) {
   console.log('[SW]Message')
 })
 
-// self.addEventListener('sync', function (event) {
-//   console.log('[SW] Sync, tag: ' + event.tag)
-//   event.waitUntil(syncAsync(event))
-// })
+self.addEventListener('sync', function (event) {
+  console.log('[SW] Sync, tag: ' + event.tag)
+  event.waitUntil(syncAsync(event))
+})
 
 // functions
 async function installAsync (event) {
@@ -151,21 +167,12 @@ async function fetchAsync (event) {
   
 }
 
-// function syncAsync (event) {
-//   console.log('[SW] Sync')
-//   if (event.tag === 'sync-new-post') {
-//     readAllData(SYNC_POST)
-//       .then(function (datas) {
-//         console.log("readSyncData success",datas)
-//         for (var data of datas) {
-//           console.log('[SW] sync DB Data', data)
-//           apiForm.postFormResult(data)
-//         }
-//       })
-//       .catch(function (err) {
-//         console.log('readSyncData Error', err)
-//       })
-//   }
-// }
+function syncAsync (event) {
+  console.log('[SW] Sync')
+  if (event.tag === 'sync-formResult') {
+    ActionPostFormResults()
+  }
+}
+
 
 

@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "weform_pwa",
   "version": "0.1.0",
   "private": true,

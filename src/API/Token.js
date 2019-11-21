@@ -29,6 +29,8 @@ export function getToken () {
             let data = new Object
             data.id = "token"
             data.token = token
+            data.expires_in = obj['expires_in']
+            data.date = new Date()
 
             db.writeData(db.TOKEN, data)
             .then(() => {

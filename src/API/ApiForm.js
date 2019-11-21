@@ -47,7 +47,7 @@ export function postFormResult (data) {
     }).then(function (response) {
       console.log("送出表單", response)
       if (response.ok) {
-        deleteData(SYNC_POST, id)
+        // deleteData(SYNC_POST, id)
       }
     }).catch(function (error) {
       console.log("POST表單失敗", error)

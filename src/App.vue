@@ -31,7 +31,14 @@ export default {
   components: {
     SideBarMeun
   },
-
+  mounted(){
+    document.addEventListener('SWEvent', this.swEvent)
+  },
+  methods:{
+    swEvent(){
+      console.log('SWEvent calllllllll')
+    }
+  },
   data: () => ({
     drawer: null
   })
