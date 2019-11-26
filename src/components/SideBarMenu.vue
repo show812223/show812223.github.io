@@ -30,7 +30,8 @@ export default {
       pages: [
         { icon: '', title: 'Home', router: '/' },
         { icon: '', title: 'About', router: '/about' },
-        { icon: '', title: '表單', router: '/Forms' }
+        { icon: '', title: '表單', router: '/Forms' },
+        { icon: '', title: '表單製作器', router:'/FormBuilder'}
       ]
     }
   }
