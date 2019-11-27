@@ -5,9 +5,11 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import Vuex from 'vuex'
+import vmodal from 'vue-js-modal'
 
 Vue.use(Vuex)
 Vue.use(vuetify);
+Vue.use(vmodal)
 Vue.config.productionTip = false
 
 new Vue({
