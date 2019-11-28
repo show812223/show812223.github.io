@@ -11,6 +11,7 @@ import * as Token from '../API/Token'
 import * as APIForm from '../API/ApiForm'
 import uuidv1 from 'uuid/v1'
 import * as db from '../db/indexedDB'
+import * as swActions from '../../public/js/swActions'
 
 export default {
   name: 'forms',

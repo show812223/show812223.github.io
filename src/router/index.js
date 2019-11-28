@@ -4,10 +4,12 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Form from '../views/Forms.vue'
 import FormBuilder from '../views/FormBuilder.vue'
+import ProjectMenu from '../views/ProjectMenu.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  
   {
     path: '/',
     name: 'home',
@@ -27,7 +29,17 @@ const routes = [
     path: '/FormBuilder',
     name: 'formBuilder',
     component: FormBuilder
-  }
+  },
+  {
+    path: '/ProjectMenu',
+    name: 'projectBuilder',
+    component: ProjectMenu
+  },
+  {
+    path: '**',
+    name: 'notFound',
+    component: Home
+  },
 ]
 
 const router = new VueRouter({

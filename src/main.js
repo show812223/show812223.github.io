@@ -8,6 +8,7 @@ import Vuex from 'vuex'
 import vmodal from 'vue-js-modal'
 import '../src/styles.scss'
 
+
 Vue.use(Vuex)
 Vue.use(vuetify);
 Vue.use(vmodal)

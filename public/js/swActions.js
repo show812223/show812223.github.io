@@ -8,6 +8,7 @@ const apiFormResult = baseURL + 'api/Result/'
 const apiToken = baseURL + 'api/token'
 const apiForm = baseURL + 'api/Form/'
 
+
 function getToken () {
   return new Promise(resolve => {
     readData(TOKEN, "token")
@@ -75,6 +76,7 @@ function getDBToken () {
 }
 
 function ActionPostFormResults () {
+  
   readAllData(SYNC_POST)
     .then(function (datas) {
       console.log("readSyncData success", datas)
@@ -117,7 +119,7 @@ function postFormResult (data) {
 
 // [SW] post表單結構
 function ActionPostFormSchema(){
-  console.log("ActionPostFormResults")
+  console.log("😂ActionPostFormResults")
   readAllData(SYNC_FormSchema).then(datas => {
     for(var data of datas){
       postFormSchema(data)

@@ -42,7 +42,7 @@ export default {
     saveForm(){
       let obj = {
         id: "ed8286ed-6a2a-4f1d-a219-e23b47463dc8",
-        name: "HanHanSoCool",
+        name: this.$data.title,
         title: this.$data.title,
         form: this.$data.form
       }
