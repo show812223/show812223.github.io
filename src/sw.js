@@ -1,4 +1,4 @@
-
+workbox.setConfig({ debug: true });
 importScripts('/js/db/p_idb.js');
 importScripts('/js/db/p_indexedDB.js')
 importScripts('/js/swActions.js')
@@ -24,9 +24,11 @@ const API_URLS = [
   'api/token'
 ]
 
+
+
 // background佇列
 const queue = new workbox.backgroundSync.Queue('myQueueName', {
-  onSync: async ({queue}) => {
+  onSync: async ({ queue }) => {
     let entry;
     while (entry = await queue.shiftRequest()) {
       try {
@@ -90,28 +92,28 @@ self.addEventListener('activate', function (event) {
   console.log('[SW]Activate')
   event.waitUntil(activeAsync())
 })
-self.addEventListener('fetch', function (event) {
- console.log('[SW]Fetch',event)
- console.log('fetch method', event.request.method)
- if (event.request.method === 'GET'){
-   event.respondWith(fetchAsync(event))
- } else{
-   // POST失敗會將request存到 indexedDB
-   console.log('POST ', event.request)
-   var promiseChain = fetch(event.request.clone()).catch(err => {
-     return queue.pushRequest({request: event.request})
-   })
-   event.waitUntil(promiseChain)
- }
-})
+// self.addEventListener('fetch', function (event) {
+//   console.log('[SW]Fetch', event)
+//   console.log('fetch method', event.request.method)
+//   if (event.request.method === 'GET') {
+//     event.respondWith(fetchAsync(event))
+//   } else {
+//     // POST失敗會將request存到 indexedDB
+//     console.log('POST ', event.request)
+//     var promiseChain = fetch(event.request.clone()).catch(err => {
+//       return queue.pushRequest({ request: event.request })
+//     })
+//     event.waitUntil(promiseChain)
+//   }
+// })
 
-self.addEventListener('error', function (event) {
-  console.log('[SW]Error', event)
-})
+// self.addEventListener('error', function (event) {
+//   console.log('[SW]Error', event)
+// })
 
-self.addEventListener('message', function (event) {
-  console.log('[SW]Message')
-})
+// self.addEventListener('message', function (event) {
+//   console.log('[SW]Message')
+// })
 
 self.addEventListener('sync', function (event) {
   console.log('[SW] Sync, tag: ' + event.tag)
@@ -151,26 +153,31 @@ async function fetchAsync (event) {
     console.log('🔴 Cache', match)
 
     return match
-  }else{
+  } else {
     caches.open(CACHE_DYNAMIC).then((cache) => cache.add(event.request))
     console.log('🔵 save Cache', event.request.url)
   }
   // 請求失敗加入sync佇列
   const promiseChain = fetch(event.request.clone())
-  .catch((err) => {
+    .catch((err) => {
       console.log('promiseChain', err)
-      return queue.pushRequest({request: event.request});
-  });
+      return queue.pushRequest({ request: event.request });
+    });
   // 緩存沒資料就跟伺服器要資料  儲存cache
   return fetch(event.request)
 
-  
+
 }
 
 function syncAsync (event) {
   console.log('[SW] Sync')
-  if (event.tag === 'sync-formResult') {
-    ActionPostFormResults()
+  switch (event.tag) {
+    case 'sync-formResult':
+      ActionPostFormResults()
+      break;
+    case 'sync-formSchema':
+      ActionPostFormSchema()
+      break;
   }
 }
 

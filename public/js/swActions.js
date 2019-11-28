@@ -6,6 +6,7 @@ const PASSWORD = 's27h27o27w27'
 const baseURL = 'https://stanteccms-dev.webim.io/'
 const apiFormResult = baseURL + 'api/Result/'
 const apiToken = baseURL + 'api/token'
+const apiForm = baseURL + 'api/Form/'
 
 function getToken () {
   return new Promise(resolve => {
@@ -107,6 +108,57 @@ function postFormResult (data) {
       if (response.status === 200) {
         console.log("response.status", response.status)
         deleteData(SYNC_POST, id)
+      }
+    }).catch(function (error) {
+      console.log("POST表單失敗", error)
+    })
+  })
+}
+
+// [SW] post表單結構
+function ActionPostFormSchema(){
+  console.log("ActionPostFormResults")
+  readAllData(SYNC_FormSchema).then(datas => {
+    for(var data of datas){
+      postFormSchema(data)
+    }
+  }).catch(function (err) {
+    console.error('Error', err)
+  })
+
+}
+
+function postFormSchema(data){
+  
+  var id  = data["id"]
+  var obj = data.form
+  var json = JSON.stringify(obj);
+  console.log("data",obj)
+  var blob = new Blob([json], {
+    type: 'application/json'
+  });
+  var form = new FormData();
+  form.append("form",blob);
+
+  getToken().then(token => {
+    var url = new URL(apiForm)
+    let searchParmas = new URLSearchParams({
+      name: data["name"],
+      formId: id
+    })
+    url.search = searchParmas
+    console.log("post schema",url.href)
+    fetch(url.href+"&=", {
+      method: 'POST',
+      body: form,
+      headers: {
+        "authorization": "Bearer " + token
+      }
+    }).then(function (response) {
+      console.log("送出 form schema", response)
+      if (response.status === 200) {
+        console.log("response.status", response.status)
+        deleteData(SYNC_FormSchema, id)
       }
     }).catch(function (error) {
       console.log("POST表單失敗", error)

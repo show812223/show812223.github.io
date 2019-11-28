@@ -1,6 +1,7 @@
  const DB_NAME = 'FormData'
  //const DB_VERSION = 1
  const SYNC_POST = 'sync_post'
+ const SYNC_FormSchema = 'SYNC_FormSchema'
  const TOKEN = 'token'
 
 var dbPromise = idb.open(DB_NAME, 1, function (db) {

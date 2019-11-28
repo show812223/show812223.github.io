@@ -3,7 +3,7 @@ import { register } from 'register-service-worker'
  
 register(`${process.env.BASE_URL}sw.js`, {
   ready () {
-    console.log(
+    console.error(
       'App is being served from cache by a service worker.\n' +
       'For more details, visit https://goo.gl/AFskqB'
     )
@@ -21,3 +21,6 @@ register(`${process.env.BASE_URL}sw.js`, {
     console.error('Error during service worker registration:', error)
   }
 })
+
+
+

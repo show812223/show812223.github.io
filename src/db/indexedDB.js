@@ -2,11 +2,15 @@ import { exp } from './idb'
 export const DB_NAME = 'FormData'
 export const DB_VERSION = 1
 export const SYNC_POST = 'sync_post'
+export const SYNC_FormSchema = 'SYNC_FormSchema'
 export const TOKEN = 'token'
 
 var dbPromise = exp.open(DB_NAME, 1, function (db) {
   if (!db.objectStoreNames.contains(SYNC_POST)) {
     db.createObjectStore(SYNC_POST, { keyPath: 'id' })
+  }
+  if (!db.objectStoreNames.contains(SYNC_FormSchema)) {
+    db.createObjectStore(SYNC_FormSchema, { keyPath: 'id' })
   }
   if (!db.objectStoreNames.contains(TOKEN)) {
     db.createObjectStore(TOKEN, { keyPath: 'id' })

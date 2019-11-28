@@ -13,12 +13,12 @@
             </v-row>
           </v-flex>
           <v-flex md12>
-            <FormBuilder v-bind:form="form"></FormBuilder>
+            
           </v-flex>
         </v-layout>
       </v-container>
     </v-card>
-
+<FormBuilder v-bind:form="form"></FormBuilder>
     <modal name="hello-world">
       </modal>
   </div>
@@ -27,6 +27,7 @@
 <script>
 import { Component, Vue } from "vue-property-decorator";
 import { FormBuilder,Form } from "vue-formio";
+import * as db from '../db/indexedDB'
 export default {
   name: 'formBuilder',
   data () {
@@ -39,12 +40,18 @@ export default {
   },
   methods:{
     saveForm(){
-      var formData  = {
+      let obj = {
+        id: "ed8286ed-6a2a-4f1d-a219-e23b47463dc8",
+        name: "HanHanSoCool",
         title: this.$data.title,
         form: this.$data.form
       }
-      let json = JSON.stringify(formData)
-      console.log(json)
+      db.writeData(db.SYNC_FormSchema, obj).then(() => {
+        navigator.serviceWorker.ready.then(sw => {
+            sw.sync.register('sync-formSchema')
+            // APIForm.postFormResult(result)
+          })
+      })
     },
     modal(){
       this.$modal.show('hello-world');
