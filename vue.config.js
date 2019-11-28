@@ -1,8 +1,10 @@
 module.exports = {
   publicPath:'./',
+
   'transpileDependencies': [
     'vuetify'
   ],
+
   pwa: {
     name: 'WeFrom PWA',
     themeColor: '#4DBA87',
@@ -15,4 +17,13 @@ module.exports = {
         swSrc: './src/sw.js'
     }
   },
+
+  pluginOptions: {
+    i18n: {
+      locale: 'zhHant',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: true
+    }
+  }
 }
