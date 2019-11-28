@@ -92,28 +92,28 @@ self.addEventListener('activate', function (event) {
   console.log('[SW]Activate')
   event.waitUntil(activeAsync())
 })
-// self.addEventListener('fetch', function (event) {
-//   console.log('[SW]Fetch', event)
-//   console.log('fetch method', event.request.method)
-//   if (event.request.method === 'GET') {
-//     event.respondWith(fetchAsync(event))
-//   } else {
-//     // POST失敗會將request存到 indexedDB
-//     console.log('POST ', event.request)
-//     var promiseChain = fetch(event.request.clone()).catch(err => {
-//       return queue.pushRequest({ request: event.request })
-//     })
-//     event.waitUntil(promiseChain)
-//   }
-// })
+self.addEventListener('fetch', function (event) {
+  console.log('[SW]Fetch', event)
+  console.log('fetch method', event.request.method)
+  if (event.request.method === 'GET') {
+    event.respondWith(fetchAsync(event))
+  } else {
+    // POST失敗會將request存到 indexedDB
+    console.log('POST ', event.request)
+    var promiseChain = fetch(event.request.clone()).catch(err => {
+      return queue.pushRequest({ request: event.request })
+    })
+    event.waitUntil(promiseChain)
+  }
+})
 
-// self.addEventListener('error', function (event) {
-//   console.log('[SW]Error', event)
-// })
+self.addEventListener('error', function (event) {
+  console.log('[SW]Error', event)
+})
 
-// self.addEventListener('message', function (event) {
-//   console.log('[SW]Message')
-// })
+self.addEventListener('message', function (event) {
+  console.log('[SW]Message')
+})
 
 self.addEventListener('sync', function (event) {
   console.log('[SW] Sync, tag: ' + event.tag)
