@@ -1,71 +1,38 @@
 {
-  "name": "weform_pwa",
+  "name": "vue-app-starterkit",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "bootstrap-sass": "^3.4.1",
     "bootswatch": "^3.4.1",
-    "core-js": "^3.3.2",
-    "exlint": "^0.1.6",
+    "core-js": "^2.6.5",
     "font-awesome": "^4.7.0",
-    "idb": "^4.0.5",
     "material-design-icons": "^3.0.1",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
+    "vue-class-component": "^7.0.2",
     "vue-formio": "^4.0.0",
-    "vue-i18n": "^8.0.0",
     "vue-js-modal": "^1.3.31",
-    "vue-router": "^3.1.3",
+    "vue-property-decorator": "^8.1.0",
+    "vue-router": "^3.0.3",
     "vuetify": "^2.1.0",
-    "vuex": "^3.0.1"
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
-    "@kazupon/vue-i18n-loader": "^0.3.0",
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
-    "@vue/cli-plugin-pwa": "^4.0.0",
-    "@vue/cli-plugin-router": "^4.0.0",
-    "@vue/cli-plugin-vuex": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
-    "@vue/eslint-config-standard": "^4.0.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-plugin-pwa": "^4.1.1",
+    "@vue/cli-service": "^3.11.0",
+    "node-sass": "^4.9.0",
     "sass": "^1.19.0",
-    "sass-loader": "^8.0.0",
-    "vue-cli-plugin-i18n": "^0.6.0",
+    "sass-loader": "^7.3.1",
     "vue-cli-plugin-vuetify": "^2.0.2",
     "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.3.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ],
-  "type": "module"
+    "vuetify-loader": "^1.3.0",
+    "webpack": "^4.41.2"
+  }
 }

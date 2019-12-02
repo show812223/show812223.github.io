@@ -13,12 +13,12 @@ export function getToken () {
         let time = (nowDate - data.date)/1000
         
         if (time > data.expires_in) {
-          console.log("time > data.expires_in", time, data.expires_in)
+          console.log("getNewToken time > data.expires_in", time, data.expires_in)
           getNewToken().then(token => {
             resolve(token)
           })
         } else {
-          console.log("time > data.expires_in", time, data.expires_in)
+          console.log("getDBToken time > data.expires_in", time, data.expires_in)
           getDBToken().then(token => {
             resolve(token)
           })

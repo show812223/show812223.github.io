@@ -6,6 +6,7 @@
           @click="changeRouter(page.router)"
         >
           <v-list-item-action>
+            <v-icon>{{page.icon}}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="page.title"></v-list-item-title>
@@ -28,11 +29,13 @@ export default {
   data () {
     return {
       pages: [
-        { icon: '', title: 'Home', router: '/' },
-        { icon: '', title: 'About', router: '/about' },
-        { icon: '', title: '表單', router: '/Forms' },
+        { icon: 'home', title: 'Home', router: '/' },
+        { icon: 'info', title: 'About', router: '/about' },
+        { icon: 'info', title: 'login', router:'/LoginView'},
+        { icon: 'file-document', title: '表單', router: '/Forms' },
         { icon: '', title: '表單製作器', router:'/FormBuilder'},
-        { icon: '', title: '專案選擇', router:'/ProjectMenu'}
+        { icon: '', title: '專案選擇', router:'/ProjectMenu'},
+        { icon: '', title: '表單列表', router:'/ProjectFormGroups'}
       ]
     }
   }

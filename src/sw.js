@@ -1,3 +1,4 @@
+
 workbox.setConfig({ debug: true });
 importScripts('/js/db/p_idb.js');
 importScripts('/js/db/p_indexedDB.js')
@@ -172,10 +173,11 @@ async function fetchAsync (event) {
 function syncAsync (event) {
   console.log('[SW] Sync')
   switch (event.tag) {
-    case 'sync-formResult':
+    case 'sync-formResult': 
       ActionPostFormResults()
       break;
     case 'sync-formSchema':
+      console.log("sync-formSchema")
       ActionPostFormSchema()
       break;
   }

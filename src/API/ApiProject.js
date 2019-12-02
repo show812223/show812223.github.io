@@ -1,5 +1,5 @@
 import store from '../store'
-import * as apiToken from '../API/Token'
+import * as apiToken from './Token'
 
 export const apiProject = store.getters.getBaseURL + 'api/Project/'
 

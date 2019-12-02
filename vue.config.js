@@ -16,14 +16,5 @@ module.exports = {
     workboxOptions: {
         swSrc: './src/sw.js'
     }
-  },
-
-  pluginOptions: {
-    i18n: {
-      locale: 'zhHant',
-      fallbackLocale: 'en',
-      localeDir: 'locales',
-      enableInSFC: true
-    }
   }
 }

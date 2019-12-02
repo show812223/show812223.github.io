@@ -20,27 +20,28 @@
   </v-app>
 </template>
 
-<script>
-import SideBarMeun from './components/SideBarMenu'
+<script lang="ts">
+import Vue from "vue";
+import SideBarMeun from '../src/components/SideBarMenu.vue'
 
-export default {
-  name: 'App',
+export default Vue.extend({
+  name: "App",
   props: {
     source: String
   },
   components: {
     SideBarMeun
   },
-  mounted(){
-    document.addEventListener('SWEvent', this.swEvent)
+  mounted() {
+    document.addEventListener("SWEvent", this.swEvent);
   },
-  methods:{
-    swEvent(){
-      console.log('SWEvent calllllllll')
+  methods: {
+    swEvent() {
+      console.log("SWEvent calllllllll");
     }
   },
   data: () => ({
     drawer: null
   })
-}
+});
 </script>

@@ -1,7 +1,7 @@
 import * as db from '../db/indexedDB'
 import store from '../store'
-// const apiForm = store.getters.getBaseURL + 'api/Form/0d86a364-9fb8-4ee6-81df-f103636ca293' // 客變表單
-// const apiFormResult = store.getters.getBaseURL + 'api/Result'
+import * as apiToken from './Token'
+let url = new URL(store.getters.getBaseURL + 'api/Form/')
 export function getForm () {
   return new Promise(function (resolve, reject) {
     db.readData(db.TOKEN, 'token').then(data => {
@@ -27,31 +27,27 @@ export function getForm () {
   })
 }
 
-export function postFormResult (data) {
-  var formResult = data['formResult']
-  var jsonString = JSON.stringify(formResult)
-  var id = data['id']
-  console.log('fetch form data', data)
-  db.readData(db.TOKEN, "token").then(to => {
-    var token = to.token
-    var url = store.getters.getBaseURL + "api/Result/" + data["formId"] +
-      "?projectId=" + data["projectId"] + "&resultId=" + data["id"] + "&title=" + data["title"] + "&templateId=" + data["templsteId"] + "versionId=" + data["formVersionId"]
-    console.log(url)
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        "Content-type": "application/json;charset=UTF-8",
-        "Authorization": "Bearer " + token
-      },
-      body: jsonString
-    }).then(function (response) {
-      console.log("送出表單", response)
-      if (response.ok) {
-        // deleteData(SYNC_POST, id)
-      }
-    }).catch(function (error) {
-      console.log("POST表單失敗", error)
+export function getFormResult(formId){
+  return new Promise((resolve, reject) => {
+    apiToken.getToken().then(token => {
+      let href = new URL( url.href + formId + "/result" )
+      let searchParmas = new URLSearchParams({
+        projectId: store.state.projectId
+      })
+      href.search = searchParmas
+      console.log("project",store.state.projectId)
+      fetch(href.href, {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
+      }).then(res => {
+        resolve(res.json())
+      }).catch(error => {
+        reject(error)
+      })
     })
   })
-
 }
+
+

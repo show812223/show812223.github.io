@@ -1,5 +1,5 @@
 <template>
-  <div id="builder">
+  <div>
     <v-card>
       <v-container fluid>
         <v-layout wrap align-center>
@@ -20,6 +20,7 @@
     </v-card>
 <FormBuilder v-bind:form="form"></FormBuilder>
     <modal name="hello-world">
+        <Form :form="form" />
       </modal>
   </div>
 </template>
@@ -32,7 +33,7 @@ export default {
   name: 'formBuilder',
   data () {
     return{
-      form: {},
+      form: {display:'form'},
       title:"",
       justify: 'end',
       alignment: 'center'
@@ -42,12 +43,13 @@ export default {
     saveForm(){
       let obj = {
         id: "ed8286ed-6a2a-4f1d-a219-e23b47463dc8",
-        name: this.$data.title,
+        name: "HanHanSoCool",
         title: this.$data.title,
         form: this.$data.form
       }
       db.writeData(db.SYNC_FormSchema, obj).then(() => {
         navigator.serviceWorker.ready.then(sw => {
+         
             sw.sync.register('sync-formSchema')
             // APIForm.postFormResult(result)
           })

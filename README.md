@@ -1,24 +1,13 @@
-# weform_pwa
+# vuetify-formio
+Integrating vuetify with the formio.io library
 
-## Project setup
-```
-npm install
-```
+This project is for those who want to get started on a project with vue, vuetify and vue-formio. This can be used as a boiler plate to get you started as quickly as possible
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Clone the repository into a desirable folder
 
-### Lints and fixes files
-```
-npm run lint
-```
+run the following commands
+1. npm install
+2. npm run serve
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+The two commands will install all node modules required for the application and start a development server
