@@ -4,6 +4,8 @@ module.exports = {
     'vuetify'
   ],
 
+  
+
   pwa: {
     name: 'WeFrom PWA',
     themeColor: '#4DBA87',
