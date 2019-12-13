@@ -4,6 +4,8 @@ export const DB_VERSION = 1
 export const SYNC_POST = 'sync_post'
 export const SYNC_FormSchema = 'SYNC_FormSchema'
 export const TOKEN = 'token'
+export const Form = 'form'
+export const FormSchema = 'formSchema' 
 
 var dbPromise = exp.open(DB_NAME, 1, function (db) {
   if (!db.objectStoreNames.contains(SYNC_POST)) {
@@ -14,6 +16,12 @@ var dbPromise = exp.open(DB_NAME, 1, function (db) {
   }
   if (!db.objectStoreNames.contains(TOKEN)) {
     db.createObjectStore(TOKEN, { keyPath: 'id' })
+  }
+  if (!db.objectStoreNames.contains(Form)) {
+    db.createObjectStore(Form, { keyPath: 'id' })
+  }
+  if (!db.objectStoreNames.contains(FormSchema)) {
+    db.createObjectStore(FormSchema, { keyPath: 'id' })
   }
 })
 

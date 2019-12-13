@@ -2,11 +2,11 @@ import * as db from '../db/indexedDB'
 import store from '../store'
 import * as apiToken from './Token'
 let url = new URL(store.getters.getBaseURL + 'api/Form/')
-export function getForm () {
+export function getForm (id) {
   return new Promise(function (resolve, reject) {
     db.readData(db.TOKEN, 'token').then(data => {
       var token = data.token
-      var url = store.getters.getBaseURL + 'api/Form/0d86a364-9fb8-4ee6-81df-f103636ca293'
+      var url = store.getters.getBaseURL + 'api/Form/'+id
       fetch(url, {
         method: 'GET',
         headers: {
