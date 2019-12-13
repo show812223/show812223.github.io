@@ -1,4 +1,4 @@
-// git
+// git pages
 module.exports = {
   publicPath:'/',
   'transpileDependencies': [
