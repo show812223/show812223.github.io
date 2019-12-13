@@ -1,3 +1,4 @@
+// git
 module.exports = {
   publicPath:'/',
   'transpileDependencies': [
