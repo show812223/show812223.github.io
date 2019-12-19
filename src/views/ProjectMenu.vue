@@ -30,6 +30,7 @@ export default {
       this.$store.dispatch('setProjectId',id)
       let a = this.$store.state.projectId
        console.log("project id",a)
+       this.$router.push({name: 'projectFormGroups'})
       
     },
     

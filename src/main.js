@@ -8,6 +8,7 @@ import vmodal from 'vue-js-modal'
 import './registerServiceWorker';
 import vuetify from './plugins/vuetify';
 
+
 Vue.use(Vuex)
 Vue.use(vuetify);
 Vue.use(vmodal)

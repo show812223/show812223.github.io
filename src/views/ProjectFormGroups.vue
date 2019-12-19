@@ -1,5 +1,5 @@
 <template>
-  <v-layout row wrap>
+  <v-layout wrap>
         <v-flex sm12 md2 pa-2>
           <FormGroup />
         </v-flex>

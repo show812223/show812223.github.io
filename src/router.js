@@ -17,6 +17,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'projectBuilder',
+      component: ProjectMenu
+    },
+    {
+      path: '/home',
       name: 'home',
       component: Home
     },
@@ -47,12 +52,12 @@ export default new Router({
     },
     {
       path: '/ProjectFormGroups',
-      name: 'ProjectFormGroups',
+      name: 'projectFormGroups',
       component: ProjectFormGroups
     },
     {
       path: '/CreatedForms',
-      name: 'CreatedForms',
+      name: 'createdForms',
       component: CreatedForms
     },
     {

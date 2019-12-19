@@ -29,14 +29,14 @@ export default {
   data () {
     return {
       pages: [
-        { icon: 'home', title: 'Home', router: '/' },
-        { icon: 'info', title: 'About', router: '/about' },
-        { icon: 'info', title: 'login', router:'/LoginView'},
-        { icon: 'file-document', title: '表單', router: '/Forms' },
-        { icon: '', title: '表單製作器', router:'/FormBuilder'},
         { icon: '', title: '專案選擇', router:'/ProjectMenu'},
+        { icon: '', title: '表單製作器', router:'/FormBuilder'},
+        { icon: '', title: '表單列表', router:'/CreatedForms'},
         { icon: '', title: '表單填寫結果列表', router:'/ProjectFormGroups'},
-        { icon: '', title: '表單列表', router:'/CreatedForms'}
+        // { icon: 'home', title: 'Home', router: '/' },
+        // { icon: 'info', title: 'About', router: '/about' },
+        // { icon: 'info', title: 'login', router:'/LoginView'},
+        // { icon: 'file-document', title: '表單', router: '/Forms' },
       ]
     }
   }

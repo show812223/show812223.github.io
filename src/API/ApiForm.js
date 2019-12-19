@@ -2,6 +2,7 @@ import * as db from '../db/indexedDB'
 import store from '../store'
 import * as apiToken from './Token'
 let url = new URL(store.getters.getBaseURL + 'api/Form/')
+
 export function getForm (id) {
   return new Promise(function (resolve, reject) {
     db.readData(db.TOKEN, 'token').then(data => {
@@ -49,5 +50,6 @@ export function getFormResult(formId){
     })
   })
 }
+
 
 

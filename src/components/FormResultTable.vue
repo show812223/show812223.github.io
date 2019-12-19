@@ -3,9 +3,11 @@
       <v-data-table 
     :headers="headers"
     :items="items"
-    :items-per-page="All"
     @click:row="rowClick"
     >
+    <template v-slot:item.CreateTime="{ item }">
+           <span>{{new Date(item.CreateTime.$date).toLocaleString()}}</span>
+         </template>
     </v-data-table>
     </v-card>
 </template>
@@ -16,16 +18,17 @@ export default {
   data () {
     return {
       headers:[
-        { text: '表單名稱', align: 'left', sortable: false, value: 'Title' },
+        { text: '表單名稱', align: 'left', sortable: true, value: 'Title' },
         { text: '類型', align: 'left', sortable: false, value: 'TemplateName' },
-        { text: '建立時間', align: 'left', sortable: false, value: 'CreateTime' },
+        { text: '建立時間', align: 'left', sortable: true, value: 'CreateTime' },
         { text: '流程', align: 'left', sortable: false, value: 'Status' },
       ],
       items:[]
     }
   },
   beforeMount(){
-      apiForm.getFormResult("0d86a364-9fb8-4ee6-81df-f103636ca293").then(res => {
+      apiForm.getFormResult("5dfd0427-408c-48e7-a15e-aff7ab07b4d7").then(res => {
+        console.log("getFormResult", res)
         this.$data.items = res
       })
   },
