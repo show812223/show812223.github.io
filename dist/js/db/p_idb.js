@@ -1,7 +1,5 @@
 'use strict';
 
-// 123
-
 (function() {
   function toArray(arr) {
     return Array.prototype.slice.call(arr);
