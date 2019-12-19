@@ -12,6 +12,7 @@ const STATIC_URLS = [
   '/index.html',
   'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900',
   'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css',
+  './plugins/vuetify'
   // 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
   // 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
   // 'https://unpkg.com/formiojs@latest/dist/formio.full.min.css',
