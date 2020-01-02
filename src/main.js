@@ -7,11 +7,13 @@ import './styles.scss';
 import vmodal from 'vue-js-modal'
 import './registerServiceWorker';
 import vuetify from './plugins/vuetify';
+import syncoboxform from 'syncoboxform';
 
 
 Vue.use(Vuex)
-Vue.use(vuetify);
+Vue.use(vuetify)
 Vue.use(vmodal)
+Vue.use(syncoboxform)
 Vue.config.productionTip = false;
 
 new Vue({

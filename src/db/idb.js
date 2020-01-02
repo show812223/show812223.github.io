@@ -257,7 +257,6 @@ proxyMethods(DB, '_db', IDBDatabase, [
 ]);
 
 // Add cursor iterators
-// TODO: remove this once browsers do the right thing with promises
 ['openCursor', 'openKeyCursor'].forEach(function (funcName) {
   [ObjectStore, Index].forEach(function (Constructor) {
     Constructor.prototype[funcName.replace('open', 'iterate')] = function () {

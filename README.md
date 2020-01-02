@@ -11,3 +11,12 @@ run the following commands
 2. npm run serve
 
 The two commands will install all node modules required for the application and start a development server
+
+# Package install
+```
+npm install syncoboxform
+```
+# Use Package
+1. sb-form-formBuilder : Page of FormIO form builder
+2. sb-form-createdForms: Page of all form schema in project
+3. sb-form-projectFormGroups: Page of form results in project

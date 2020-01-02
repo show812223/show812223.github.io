@@ -1,39 +1,58 @@
 {
-  "name": "vue-app-starterkit",
-  "version": "0.1.0",
+  "name": "syncoboxform",
+  "version": "0.5.0",
   "private": false,
+  "description": "Form compnent for SyncoBox.",
+  "bugs": {
+    "url": "https://github.com/peterhpchen/syncoboxform/issues"
+  },
+  "homepage": "https://github.com/peterhpchen/syncoboxform",
+  "jsdelivr": "dist/syncoboxform.umd.js",
+  "keywords": [
+    "vue"
+  ],
+  "license": "MIT",
+  "main": "dist/syncoboxform.common.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peterhpchen/syncoboxform"
+  },
+  "unpkg": "dist/syncoboxform.umd.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "build-bundle": "vue-cli-service build --target lib --name syncoboxform ./src/components/index.js"
   },
   "dependencies": {
     "bootstrap-sass": "^3.4.1",
     "bootswatch": "^3.4.1",
-    "core-js": "^2.6.5",
+    "core-js": "^2.6.11",
     "font-awesome": "^4.7.0",
     "material-design-icons": "^3.0.1",
     "register-service-worker": "^1.6.2",
-    "vue": "^2.6.10",
+    "syncoboxform": "^0.4.0",
+    "v-triangle": "^0.2.0",
+    "vue": "^2.6.11",
     "vue-class-component": "^7.0.2",
     "vue-formio": "^4.0.0",
     "vue-js-modal": "^1.3.31",
-    "vue-property-decorator": "^8.1.0",
+    "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.0.3",
-    "vuetify": "^2.1.0",
+    "vuetify": "^2.1.17",
     "vuex": "^3.1.2",
     "vuex-persistedstate": "^2.7.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-pwa": "^4.1.1",
-    "@vue/cli-service": "^3.11.0",
-    "node-sass": "^4.9.0",
-    "sass": "^1.19.0",
+    "@vue/cli-plugin-babel": "^3.12.1",
+    "@vue/cli-plugin-pwa": "^4.1.2",
+    "@vue/cli-service": "^4.1.2",
+    "node-sass": "^4.13.0",
+    "sass": "^1.24.0",
     "sass-loader": "^7.3.1",
-    "vue-cli-plugin-vuetify": "^2.0.2",
-    "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.3.0",
+    "vue-cli-plugin-vuetify": "^2.0.3",
+    "vue-template-compiler": "^2.6.11",
+    "vuetify-loader": "^1.4.3",
     "webpack": "^4.41.2"
   }
 }
