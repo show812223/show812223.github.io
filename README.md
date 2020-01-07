@@ -12,11 +12,27 @@ run the following commands
 
 The two commands will install all node modules required for the application and start a development server
 
-# Package install
+# Package 安裝
 ```
 npm install syncoboxform
 ```
-# Use Package
-1. sb-form-formBuilder : Page of FormIO form builder
-2. sb-form-createdForms: Page of all form schema in project
-3. sb-form-projectFormGroups: Page of form results in project
+引用scss
+```
+@import "~syncoboxform/src/styles.scss" 
+```
+
+# 特殊router設定
+formBuilder router加入下列設定
+```
+{
+  path: '/FormBuilder/:formId?',
+  name: 'formBuilder',
+  component: FormBuilder,
+},
+```
+# 標籤
+1. sb-form-builder : FormIO form builder 頁面
+2. sb-created-forms: 專案中的所有表單結構頁面
+3. sb-project-form-results: 專案表單寫結果頁面
+# 警告
+目前動態生成的html會接收不到css，主要發生在formio拖曳的控件以及彈出視窗

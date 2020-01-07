@@ -1,12 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
-import About from './views/About.vue';
-import LoginView from './views/LoginView.vue';
-import Forms from './views/Forms.vue';
 import FormBuilder from './views/FormBuilder.vue';
 import ProjectMenu from './views/ProjectMenu.vue';
-import ProjectFormGroups from './views/ProjectFormGroups.vue';
+import ProjectFormResults from './views/ProjectFormResults.vue';
 import CreatedForms from './views/CreatedForms.vue'
 
 Vue.use(Router);
@@ -17,28 +14,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'projectBuilder',
+      name: '',
       component: ProjectMenu
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: About
-    },
-    {
-      path: '/LoginView',
-      name: 'loginView',
-      component: LoginView
-    },
-    {
-      path: '/Forms',
-      name: 'forms',
-      component: Forms
     },
     {
       path: '/FormBuilder/:formId?',
@@ -51,9 +28,9 @@ export default new Router({
       component: ProjectMenu
     },
     {
-      path: '/ProjectFormGroups',
-      name: 'projectFormGroups',
-      component: ProjectFormGroups
+      path: '/ProjectFormResults',
+      name: 'projectFormResults',
+      component: ProjectFormResults
     },
     {
       path: '/CreatedForms',

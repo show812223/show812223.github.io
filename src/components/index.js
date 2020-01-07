@@ -1,14 +1,14 @@
 import FormBuilder from '../views/FormBuilder.vue';
 import CreatedForms from '../views/CreatedForms.vue';
-import ProjectFormGroups from '../views/ProjectFormGroups.vue'
+import ProjectFormResults from '../views/ProjectFormResults.vue'
 
 // Vue 安裝 Plugin 時 ( Vue.use ) 會叫用 install 函式，在此時註冊元件
 export function install(Vue) {
   if (install.installed) return;
   install.installed = true;
-  Vue.component('sb-form-formBuilder', FormBuilder);
-  Vue.component('sb-form-createdForms', CreatedForms);
-  Vue.component('sb-form-projectFormGroups', ProjectFormGroups);
+  Vue.component('sb-form-builder', FormBuilder);
+  Vue.component('sb-created-forms', CreatedForms);
+  Vue.component('sb-project-form-results', ProjectFormResults);
 }
 
 // 建立 Plugin 物件

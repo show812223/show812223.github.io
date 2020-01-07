@@ -1,10 +1,27 @@
-$icon-font-path: "../node_modules/bootstrap-sass/assets/fonts/bootstrap/";
-// @import "../node_modules/bootswatch/yeti/_variables.scss";
-@import "../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-// @import "../node_modules/bootswatch/yeti/_bootswatch.scss";
+// $icon-font-path: "../node_modules/bootstrap-sass/assets/fonts/bootstrap/";
+// @import "../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+
+// @import "~material-design-icons/iconfont/material-icons.css";
+// @import "~vuetify/dist/vuetify.min.css";
+// @import "../node_modules/font-awesome/css/font-awesome.css";
 
 
-//For the Material design vuetify library
+// $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+// @import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+// @import "~font-awesome/css/font-awesome.css";
+
+// @import "~material-design-icons/iconfont/material-icons.css";
+// @import "~vuetify/dist/vuetify.min.css";
+
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+// @import "~bootswatch/yeti/_variables.scss";
+@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+// @import "~bootswatch/yeti/_bootswatch.scss";
+
 @import "~material-design-icons/iconfont/material-icons.css";
 @import "~vuetify/dist/vuetify.min.css";
-@import "../node_modules/font-awesome/css/font-awesome.css";
+@import "~font-awesome/css/font-awesome.css";
+
+.droup .dropdown {
+    background-color: red($color: #000000);
+}

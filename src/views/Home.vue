@@ -1,20 +1,25 @@
 <template>
 <div>
-  <!-- <sb-form-formBuilder></sb-form-formBuilder> -->
-  <!-- <sb-form-createdForms></sb-form-createdForms> -->
-  <sb-form-projectFormGroups></sb-form-projectFormGroups>
+  <sb-form-builder></sb-form-builder>
+  <sb-created-forms></sb-created-forms>
+  <sb-project-form-results></sb-project-form-results>
 </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from '../components/HelloWorld.vue';
+import syncoboxfrom from '../components/index'
+Vue.use(syncoboxfrom)
 
 export default Vue.extend({
   name: 'Home',
 
   components: {
-    HelloWorld,
   },
 });
 </script>
+
+<style lang="scss">
+  // @import '~syncoboxform/src/styles.scss'
+</style>
+
