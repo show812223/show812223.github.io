@@ -6,7 +6,8 @@ import Vuex from 'vuex'
 import vmodal from 'vue-js-modal'
 import './registerServiceWorker';
 import vuetify from './plugins/vuetify';
-import scss from './styles.scss';
+import i18n from './i18n'
+// import scss from './styles.scss';
 
 
 
@@ -19,5 +20,6 @@ new Vue({
   router,
   store,
   vuetify,
+  i18n,
   render: (h) => h(App)
 }).$mount('#app');

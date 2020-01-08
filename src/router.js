@@ -38,6 +38,11 @@ export default new Router({
       component: CreatedForms
     },
     {
+      path: '/Home',
+      name: 'home',
+      component: Home
+    },
+    {
       path: '**',
       name: 'notFound',
       component: Home

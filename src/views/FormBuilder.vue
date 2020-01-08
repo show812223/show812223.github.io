@@ -1,7 +1,12 @@
 <template>
   <div>
     <v-card width="100%">
-      <v-toolbar dense class="sb-form-builder-toolbar mb-5" flat :color="'grey lighten-3'">
+      <v-toolbar
+        dense
+        class="sb-form-builder-toolbar mb-5"
+        flat
+        :color="'grey lighten-3'"
+      >
         <v-toolbar-title>{{ formTitle }}</v-toolbar-title>
         <v-spacer />
         <v-toolbar-items>
@@ -17,13 +22,7 @@
           <v-btn icon @click="showDialog('preview')">
             <v-icon>mdi-eye</v-icon>
           </v-btn>
-          <v-btn
-            rounded
-            small
-            dark
-            color="blue lighten-1"
-            @click="saveForm"
-          >
+          <v-btn rounded small dark color="blue lighten-1" @click="saveForm">
             <v-icon>mdi-content-save</v-icon>
           </v-btn>
         </v-toolbar-items>
@@ -87,11 +86,25 @@ export default {
       Token.getToken().then(token => {
         APIForm.getForm(id).then(obj => {
           let form = { display: "form", components: obj["Components"] };
-          this.builder = window.Formio.builder(
-            this.$refs.formBuilder,
-            form,
-            {}
-          ).then(builder => {
+          this.builder = window.Formio.builder(this.$refs.formBuilder, form, {
+            language: "zhhant",
+            i18n: {
+              en: {
+                Submit: "Complete"
+              },
+              zhhant: {
+                Submit: "送出",
+                "Please correct all errors before submitting.":
+                  "Por favor, corrija todos los errores antes de enviar.",
+                "My custom error message": "Mi mensaje de error personalizado",
+                required: "{{field}} es requerido.",
+                invalid_email:
+                  "{{field}} debe ser un correo electrónico válido.",
+                error:
+                  "Por favor, corrija los siguientes errores antes de enviar."
+              }
+            }
+          }).then(builder => {
             this.$data.previewSchema = form;
             this.$data.formTitle = obj.Name;
             builder.on("change", () => {
@@ -109,7 +122,7 @@ export default {
       switch (name) {
         case "preview":
           this.$data.previewDialog = true;
-          
+
           break;
       }
     },
@@ -139,7 +152,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .sb-form-builder-toolbar {
   position: -webkit-sticky;
   position: sticky;
@@ -154,8 +166,7 @@ export default {
   top: 50px;
 }
 
-.component-btn-group{
+.component-btn-group {
   z-index: 4;
 }
-
 </style>
