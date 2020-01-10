@@ -52,6 +52,7 @@ import { FormBuilder, Form } from "vue-formio";
 import * as db from "../db/indexedDB";
 import * as Token from "../API/Token";
 import * as APIForm from "../API/ApiForm";
+import EditForm from "../formioSettings/editForm.json"
 export default {
   name: "formBuilder",
   props: {},
@@ -66,6 +67,8 @@ export default {
   },
   mounted() {
     console.log("*** mounted");
+    
+    console.log(this.$data.editForm);
   },
   data() {
     return {
@@ -78,7 +81,8 @@ export default {
       justify: "end",
       alignment: "center",
       previewDialog: false,
-      builder: ""
+      builder: "",
+      editForm: EditForm,
     };
   },
   methods: {
@@ -87,24 +91,11 @@ export default {
         APIForm.getForm(id).then(obj => {
           let form = { display: "form", components: obj["Components"] };
           this.builder = window.Formio.builder(this.$refs.formBuilder, form, {
-            language: "zhhant",
-            i18n: {
-              en: {
-                Submit: "Complete"
-              },
-              zhhant: {
-                Submit: "送出",
-                "Please correct all errors before submitting.":
-                  "Por favor, corrija todos los errores antes de enviar.",
-                "My custom error message": "Mi mensaje de error personalizado",
-                required: "{{field}} es requerido.",
-                invalid_email:
-                  "{{field}} debe ser un correo electrónico válido.",
-                error:
-                  "Por favor, corrija los siguientes errores antes de enviar."
-              }
-            }
+            language:this.$i18n.locale,
+            i18n: this.$i18n.messages,
+            editForm: this.$data.editForm
           }).then(builder => {
+            console.log(this.$i18n.locale);
             this.$data.previewSchema = form;
             this.$data.formTitle = obj.Name;
             builder.on("change", () => {
