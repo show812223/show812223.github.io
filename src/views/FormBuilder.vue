@@ -8,6 +8,9 @@
         :color="'grey lighten-3'"
       >
         <v-toolbar-title>{{ formTitle }}</v-toolbar-title>
+         <v-btn icon>
+            <v-icon>mdi-arrow-left</v-icon>
+          </v-btn>
         <v-spacer />
         <v-toolbar-items>
           <v-btn icon>

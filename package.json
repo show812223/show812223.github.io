@@ -13,6 +13,7 @@
   "main": "dist/syncoboxform.common.js",
   "unpkg": "dist/syncoboxform.umd.js",
   "dependencies": {
+    "axios": "^0.19.1",
     "bootstrap-sass": "^3.4.1",
     "bootswatch": "^3.4.1",
     "core-js": "^2.6.11",

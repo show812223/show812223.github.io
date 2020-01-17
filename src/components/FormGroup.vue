@@ -15,20 +15,19 @@
     <v-treeview
       :items="items"
       dense
+      activatable
       open-on-click
-      item-children="Items"
-      item-text="Title"
+      item-children="children"
+      item-text="name"
       item-key="Id"
       :search="search"
       :filter="filter"
-      @update:active="test"
-      activatable
     ></v-treeview>
   </v-card>
 </template>
 
 <script>
-import * as ApiFormGroup from '../API/ApiFormGroup'
+import {API} from '../api.js'
 export default {
   data () {
     return {
@@ -36,9 +35,23 @@ export default {
       items:[]
     }
   },
+  props:{
+    API:{
+      type:Object,
+      default:()=>API
+    },
+    companyId:{
+      type:String,
+      default:"",
+    }
+  },
   beforeMount(){
-    ApiFormGroup.getFormGroup().then(res => {
-      this.$data.items = res
+    this.API.companyFormGroup.get(this.companyId)
+    .then(res =>{
+      console.log("axios form group", res.data)
+      this.$data.items = res.data
+    }).catch(error =>{
+      console.error("axios form group", error)
     })
   },
   computed:{

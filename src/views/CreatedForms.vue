@@ -7,7 +7,7 @@
       :search="search"
       show-expand
       single-expand
-      item-key="name"
+      item-key="id"
       height="720px"
     >
       <template v-slot:top>
@@ -28,10 +28,17 @@
           <!-- create dialog -->
         </v-toolbar>
       </template>
-
+      <template v-slot:item.AppliedVersion.id="{ item }">
+        <v-chip outlined color="blue" dark>{{
+          currentVersionIndex(item)
+        }}</v-chip>
+      </template>
+      <template v-slot:item.CreatedDate.$date="{ item }">
+        {{ dateConvert( item.CreatedDate.$date) }}
+      </template>
       <template v-slot:item.action="{ item }">
         <v-btn class="mr-5" icon color="blue" dark>
-          <v-icon @click="addVersion(item)">mdi-plus</v-icon>
+          <v-icon @click="setCreateVersionDialog(item)">mdi-plus</v-icon>
         </v-btn>
         <v-btn class="mr-5" icon color="blue" dark>
           <v-icon @click="editItem(item)">mdi-pencil</v-icon>
@@ -41,23 +48,23 @@
         </v-btn>
       </template>
       <!-- expand table -->
-      <template v-slot:item.name="{ item }">
-        <v-btn text >{{ item.name }}</v-btn>
-      </template>
-      <template v-slot:item.version="{ item }">
-        <v-chip outlined color="blue" dark>{{ item.version }}</v-chip>
-      </template>
-
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-data-table
             class="ma-5"
             hide-default-footer
             :headers="expandedHeader"
-            :items="item.versions"
+            :items="item.Versions"
             sort-by="version"
             sort-desc
           >
+            <template v-slot:item.id="{ item }">
+              <v-chip outlined color="blue" dark>
+               {{versionIndex(desserts, item)}}
+              </v-chip>
+            </template>
+            <template v-slot:item.CreatedTime="{item}">
+            </template>
             <template v-slot:item.action="{ item }">
               <v-btn color="blue" class="mr-1" outlined>應用</v-btn>
               <v-btn
@@ -105,20 +112,46 @@
           :options="{ noAlerts: true }"
         ></formio>
       </v-card>
+    </v-dialog>+
+
+    <v-dialog v-model="createVersionDialog">
+      <v-card class="pa-5">
+        <v-card-title>
+          <span>新增表單版本</span>
+        </v-card-title>
+        <v-card-text>
+          <v-text-field v-model="createVersionName" required label="版本名稱"></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="createVersionDialog = false">取消</v-btn>
+          <v-btn dark @click="addVersion()">新增</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-dialog>
+
+
   </div>
 </template>
 
 <script>
 import SaveDialog from "../components/Dialogs/SaveCancelDialog";
 import { Form } from "vue-formio";
-import * as Token from "../API/Token";
-import * as APIForm from "../API/ApiForm";
+import { API } from "../api.js";
 export default {
+  props: {
+    API: {
+      type: Object,
+      default: () => API
+    }
+  },
   computed: {
     cardHeight: function() {
       console.log("cardHeight", window.innerHeight);
       return window.innerHeight - 170;
+    },
+    formTitle() {
+      return this.$data.editedIndex === -1 ? "新表單" : "編輯表單";
     }
   },
   data() {
@@ -127,104 +160,61 @@ export default {
       dialog: false,
       previewDialog: false,
       createDialog: false,
+      createVersionDialog:false,
+      createVersionData:{},
+      createVersionName:"",
       search: "",
       headers: [
         { text: "", value: "data-table-expand" },
-        { text: "名稱", align: "left", value: "name" },
-        { text: "版本", value: "version" },
-        { text: "createTime", value: "createTime" },
-        { text: "createUser", value: "createUser" },
+        { text: "名稱", align: "left", value: "Name" },
+        { text: "版本", value: "AppliedVersion.id", name: "version" },
+        { text: "建立時間", value: "CreatedDate.$date" },
+        { text: "建立者", value: "CreatedUserName" },
         { text: "說明", value: "memo" },
         { text: "", align: "center", value: "action", sortable: false }
       ],
-      desserts: [
-        {
-          name: "HanHanSoCool",
-          version: 2,
-          createTime: "2019/11/01",
-          createUser: "胡聖翰",
-          memo: "",
-          versions: [
-            {
-              name: "HanHanSoCool",
-              formId: "0d86a364-9fb8-4ee6-81df-f103636ca293",
-              version: 1,
-              createTime: "2019/11/01",
-              createUser: "胡聖翰"
-            },
-            {
-              name: "HanHanSoCool",
-              formId: "4dd0a06b-53ab-4d97-b5e8-e31d7fe2bb84",
-              version: 2,
-              createTime: "2019/11/02",
-              createUser: "胡聖翰"
-            }
-          ]
-        },
-        {
-          name: "new form",
-          version: 1,
-          createTime: "2019/11/01",
-          createUser: "胡聖翰",
-          memo: "",
-          versions: [
-            {
-              name: "new form",
-              formId: "0000000",
-              version: 1,
-              createTime: "2019/11/01",
-              createUser: "胡聖翰"
-            }
-          ]
-        }
-      ],
+      desserts: [],
       expandedHeader: [
-        { text: "版次", align: "center", value: "version" },
-        { text: "建立時間", value: "createTime" },
-        { text: "建立者", value: "createUser" },
+        { text: "版次", align: "center", value: "id" },
+        { text: "建立時間", value: "CreatedTime" },
+        { text: "建立者", value: "CreatedUserName" },
         { text: "", align: "right", value: "action", sortable: false }
       ],
       editedIndex: -1,
-      editedItem: {
-        name: "",
-        version: 1,
-        createTime: "2019/11/01",
-        createUser: "胡聖翰",
-        memo: "",
-        versions: [
-          {
-            version: 1,
-            createTime: "2019/11/01",
-            createUser: "胡聖翰"
-          }
-        ]
-      },
-      defaultItem: {
-        name: "",
-        version: 1,
-        createTime: "2019/11/01",
-        createUser: "胡聖翰",
-        memo: "",
-        versions: [
-          {
-            version: 1,
-            createTime: "2019/11/01",
-            createUser: "胡聖翰"
-          }
-        ]
-      }
+      editedItem: {},
+      defaultItem: {}
     };
   },
   components: {
     formio: Form,
     SaveDialog
   },
-  computed: {
-    formTitle() {
-      return this.$data.editedIndex === -1 ? "新表單" : "編輯表單";
-    }
-  },
   methods: {
+    versionIndex(parent,item) {
+    
+      
+    },
+    currentVersionIndex: function(item) {
+      let id = item.AppliedVersion.id;
+      let versions = item.Versions;
+      let t = versions.find(x => x.id === id);
+      let index = versions.indexOf(t);
+      return index + 1;
+    },
+    dateConvert(item) {
+      let timestemp = item;
+      var datetime = new Date();
+      datetime.setTime(timestemp);
+      var year = datetime.getFullYear();
+      var month = datetime.getMonth() + 1;
+      var date = datetime.getDate();
+      var hour = datetime.getHours();
+      var minute = datetime.getMinutes();
+      var second = datetime.getSeconds();
+      var mseconds = datetime.getMilliseconds();
+      return year + "-" + month + "-" + date + " " + hour + ":" + minute;
+      console.log("date", timestemp);
+    },
     showDialog(name) {
       switch (name) {
         case "createDialog":
@@ -233,16 +223,17 @@ export default {
         case "previewDialog":
           this.$data.previewDialog = true;
           break;
+        case "createVersionDialog":
+          this.$data.createVersionDialog = true;
+          break;
       }
     },
     previewForm(item) {
-      let id = item.formId;
-      Token.getToken().then(token => {
-        APIForm.getForm(id).then(obj => {
-          let form = { display: "form", components: obj["Components"] };
-          this.$data.formComponent = form;
-          this.$data.previewDialog = true;
-        });
+      this.$data.dialog = true
+      let id = item.id;
+      console.log("formId", id);
+      this.API.formFormVersion.get(id).then(res => {
+        console.log(res)
       });
     },
     closeDialog(name) {
@@ -252,6 +243,9 @@ export default {
           break;
         case "previewDialog":
           this.$data.previewDialog = false;
+          break;
+        case "createVersionDialog":
+          this.$data.createVersionDialog = false;
           break;
       }
     },
@@ -270,17 +264,19 @@ export default {
         params: { formId: item.formId }
       });
     },
-    addVersion(item) {
-      console.log("item", item);
-      let version = item.version + 1;
-      let object = {
-        version: version,
-        createTime: Date(),
-        createUser: "胡聖翰"
-      };
-      item.versions.push(object);
-      item.version = version;
-      console.log("item push", this.$data.desserts);
+    setCreateVersionDialog(item){
+      this.$data.createVersionDialog = true;
+      this.$data.createVersionData = item
+      this.$data.createVersionName = ""
+    },
+    addVersion() {
+      var item = this.$data.createVersionData
+      var name = this.$data.createVersionName
+      var id = item.id
+      console.log(id,name)
+      this.API.formFormVersion.post(id,{"name":name}).then(res=>{
+        console.log(res)
+      })
     },
     editItem() {
       this.$data.editedItem = this.$data.defaultItem;
@@ -314,18 +310,12 @@ export default {
     }
   },
   beforeMount() {
-    Token.getToken().then(token => {
-      APIForm.getForm().then(obj => {
-        this.formComponent = {
-          display: "form",
-          components: obj["Components"]
-        };
-      });
+    this.API.form.get().then(res => {
+      console.log("axios form", res.data);
+      this.desserts = res.data;
     });
   }
 };
 </script>
 
-<style lang="scss" >
-
-</style>
+<style lang="scss"></style>
