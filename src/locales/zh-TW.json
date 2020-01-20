@@ -1,4 +1,7 @@
 {
+    "alert":{
+        "addNewForm":"新增表單成功"
+    },
     "Drag and Drop a form component":"拖放表單元件到此處",
     "Preview":"預覽",
     "Display":"顯示",

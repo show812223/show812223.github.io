@@ -3,6 +3,7 @@
     <v-flex sm12 md2 pa-2>
       <FormGroup v-bind:companyId="companyId" />
     </v-flex>
+    
     <v-flex sm12 md10 pa-2> 
       <FormResultTable />
     </v-flex>

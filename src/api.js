@@ -2,15 +2,15 @@ import axios from "axios";
 
 const dev = false;
 
-const TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6Il9QSm5NVVNxZ3hWSDJXN2I5VElES2ciLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE1NzkyNTIwNTcsImV4cCI6MTU3OTI1NTY1NywiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5zeW5jb2JveC5jb20iLCJhdWQiOiJwYW5vOmFsbCIsImNsaWVudF9pZCI6InBvcnRhbC1zcGEiLCJzdWIiOiI2NjlkZDBhZi02ZWIxLTRmYzgtOGVmYi05NjczOGRjNzA2ZGYiLCJhdXRoX3RpbWUiOjE1NzkyNTIwNTEsImlkcCI6ImxvY2FsIiwicHJlZmVycmVkX3VzZXJuYW1lIjoidGVzdHVzZXIiLCJ1bmlxdWVfbmFtZSI6InRlc3R1c2VyIiwiZW1haWwiOiJ0ZXN0dXNlckB3ZWJpbS5jb20udHciLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwic2NvcGUiOlsicHJvZmlsZSIsIm9wZW5pZCIsInBhbm86YWxsIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.IitKvR4QtCQlnBQoIC7mcdxwstChGtvGpUf_yCbyrv5PFxNpQvsuhrT1PdlgpfeiQox6Nds71Kp1uYe6f5DXJ9wNhlgUPwPNSdv5mTnhZjj9V_rUWdLYlmLMlvIegIdV18JITomDcRZGyXfg1mmIrxDuEM4BA4ANgAjdH0coosN_VjZXVXe22FS9XwGh_wGdolgFdx4xWF1XpVOKN5NL_NipLBHpd7BoPlDaaGs3Dci-evNvDkyupkaHKLBkB87WwIElrmQg_ooSgUlHVuQgb0L83ffndHu7goIvVE4gCljvE7sEX3whnbl6tAIxVX35IPk8l_s8B5J0p7-2uTUyTA"
+const TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6Il9QSm5NVVNxZ3hWSDJXN2I5VElES2ciLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE1Nzk0OTg1MzIsImV4cCI6MTU3OTUwMjEzMiwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5zeW5jb2JveC5jb20iLCJhdWQiOiJwYW5vOmFsbCIsImNsaWVudF9pZCI6InN5bmNvYm94LWFwaS1zd2FnZ2VyIiwic3ViIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiYXV0aF90aW1lIjoxNTc5NDk4NTMyLCJpZHAiOiJsb2NhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3R1c2VyIiwidW5pcXVlX25hbWUiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdHVzZXJAd2ViaW0uY29tLnR3IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInNjb3BlIjpbInBhbm86YWxsIl0sImFtciI6WyJwd2QiXX0.IWQ7BrSL7TXHP6Ck9-_cdM8fOSCE-CfbqVq3VMbzBcGkoEGdBca9djsw_q9BPQMorIO9KIsH2l_KJ-BEVtYwDgB9Tv7WJjZgzIZSuGFbohWx9ZbCsbK-Zw8zBMvA2UMoByz-6q_DFF8IjMfx5ptAQYptz5V2I7WKVZImjsk2iVwlyk3csJlnq2Fp8dryzLs7guhxMgwYC-kWGVQkb0ODELlNBRcZr0HvuNwYSvUHRFt_kA1fz-7FXPapiZYvm3ZrdZx0D6hf0izguDux_9u8y2zFZEPZJDiXRzNAAn1CU0q9Ju0cfYUgNKHIE6-MwSi_vSd7x6clD6LJ4i0xNLPclQ"
 const CONFIG = dev
   ? {}
   : {
       headers: {
-        Authorization: `bearer ${TOKEN}`
+        Authorization: `bearer ${TOKEN}`,
+        "Content-Type": "application/json"
       }
     };
-
 const cors = "http://localhost:5000/";
 const api_base = dev
   ? `${cors}http://9358f2f6.ngrok.io`
@@ -21,7 +21,7 @@ const api_base_panoVer = `${api_base}/PanoramaVersion`;
 
 const api_base_form = `${api_base}/Form`;
 const api_base_formFormVersion = `${api_base}/Form`;
-const api_base_formGroup = `${api_base}/FormGroup`;
+const api_base_formGroup = `${api_base}`;
 const api_base_companyFormGroup = `${api_base}/Company`;
 
 // Form base api
@@ -41,16 +41,16 @@ const CompanyFormGroupRequest = axios.create({
 });
 
 const FormAPI = {
-  get: () => formRequest.get("", CONFIG)
+  get: () => formRequest.get("", CONFIG),
+  add:(name,) => formRequest.post(`?formName=${name}`,JSON.stringify("{}"),CONFIG)
 };
 const FormFormVersionAPI = {
   get: id => formFormVersionRequest.get(`${id}/FormVersion`, CONFIG),
-  post: (id,data) => formFormVersionRequest.post(`${id}/FormVerson`,data,CONFIG)
+  post: (id,data) => formFormVersionRequest.post(`${id}/FormVersion`,data,CONFIG)
 };
 
 const FormGroupAPI = {
-  get: (companyId, groupId) =>
-    formGroupRequest.get(`?companyId=${companyId}&groupId=${groupId}`, CONFIG)
+  get: (companyId,groupId) =>formGroupRequest.get(`/FormGroup?companyId=${companyId}&groupId=${groupId}`, CONFIG)
 };
 
 const CompanyFormGroupAPI = {

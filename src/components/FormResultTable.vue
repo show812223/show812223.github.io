@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import * as apiForm from '../API/ApiForm'
 export default {
   data () {
     return {

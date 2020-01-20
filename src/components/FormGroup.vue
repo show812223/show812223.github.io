@@ -15,7 +15,8 @@
     <v-treeview
       :items="items"
       dense
-      activatable
+      hoverable="true"
+      activatable="true"
       open-on-click
       item-children="children"
       item-text="name"
@@ -46,12 +47,12 @@ export default {
     }
   },
   beforeMount(){
-    this.API.companyFormGroup.get(this.companyId)
+    this.API.formGroup.get(this.companyId,"")
     .then(res =>{
-      console.log("axios form group", res.data)
+      console.log("axios form group ", this.companyId, res.data)
       this.$data.items = res.data
     }).catch(error =>{
-      console.error("axios form group", error)
+      console.error("axios form group", this.companyId, error)
     })
   },
   computed:{

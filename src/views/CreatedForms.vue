@@ -9,21 +9,15 @@
       single-expand
       item-key="id"
       height="720px"
+      sort-by="CreatedDate.$date"
+      sort-desc
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>表單</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <v-text-field
-            class="mr-5"
-            v-model="search"
-            append-icon="search"
-            label="Search"
-            hide-details
-            single-line
-            placeholder="搜尋"
-          />
+
           <v-btn @click="showDialog('createDialog')">新增表單</v-btn>
           <!-- create dialog -->
         </v-toolbar>
@@ -34,7 +28,7 @@
         }}</v-chip>
       </template>
       <template v-slot:item.CreatedDate.$date="{ item }">
-        {{ dateConvert( item.CreatedDate.$date) }}
+        {{ dateConvert(item.CreatedDate.$date) }}
       </template>
       <template v-slot:item.action="{ item }">
         <v-btn class="mr-5" icon color="blue" dark>
@@ -55,15 +49,11 @@
             hide-default-footer
             :headers="expandedHeader"
             :items="item.Versions"
-            sort-by="version"
-            sort-desc
           >
             <template v-slot:item.id="{ item }">
               <v-chip outlined color="blue" dark>
-               {{versionIndex(desserts, item)}}
+                {{ versionIndex(desserts, item) }}
               </v-chip>
-            </template>
-            <template v-slot:item.CreatedTime="{item}">
             </template>
             <template v-slot:item.action="{ item }">
               <v-btn color="blue" class="mr-1" outlined>應用</v-btn>
@@ -93,13 +83,21 @@
           <span>新增表單</span>
         </v-card-title>
         <v-card-text>
-          <v-text-field required label="表單名稱"></v-text-field>
-          <v-text-field required label="備註"></v-text-field>
+          <v-text-field
+            v-model="newFormName"
+            required
+            label="表單名稱"
+          ></v-text-field>
+          <v-text-field
+            v-model="newFormMemo"
+            required
+            label="備註"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn @click="closeDialog('createDialog')">取消</v-btn>
-          <v-btn dark>新增</v-btn>
+          <v-btn dark @click="createForm()">新增</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -111,8 +109,8 @@
           :form="formComponent"
           :options="{ noAlerts: true }"
         ></formio>
-      </v-card>
-    </v-dialog>+
+      </v-card> </v-dialog
+    >+
 
     <v-dialog v-model="createVersionDialog">
       <v-card class="pa-5">
@@ -120,7 +118,11 @@
           <span>新增表單版本</span>
         </v-card-title>
         <v-card-text>
-          <v-text-field v-model="createVersionName" required label="版本名稱"></v-text-field>
+          <v-text-field
+            v-model="createVersionName"
+            required
+            label="版本名稱"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -130,14 +132,17 @@
       </v-card>
     </v-dialog>
 
+    <v-snackbar top :color="snackbarColor" v-model="snackbar" :timeout=5000>
+      {{snackbarText}}
+  </v-snackbar>
 
   </div>
 </template>
 
 <script>
-import SaveDialog from "../components/Dialogs/SaveCancelDialog";
 import { Form } from "vue-formio";
 import { API } from "../api.js";
+import axios from "axios";
 export default {
   props: {
     API: {
@@ -160,14 +165,19 @@ export default {
       dialog: false,
       previewDialog: false,
       createDialog: false,
-      createVersionDialog:false,
-      createVersionData:{},
-      createVersionName:"",
+      createVersionDialog: false,
+      snackbar:false,
+      snackbarText:"",
+      snackbarColor:"",
+      createVersionData: {},
+      createVersionName: "",
+      newFormName: "",
+      newFormMemo: "",
       search: "",
       headers: [
         { text: "", value: "data-table-expand" },
         { text: "名稱", align: "left", value: "Name" },
-        { text: "版本", value: "AppliedVersion.id", name: "version" },
+        { text: "應用版本", value: "AppliedVersion.id", name: "version" },
         { text: "建立時間", value: "CreatedDate.$date" },
         { text: "建立者", value: "CreatedUserName" },
         { text: "說明", value: "memo" },
@@ -186,14 +196,10 @@ export default {
     };
   },
   components: {
-    formio: Form,
-    SaveDialog
+    formio: Form
   },
   methods: {
-    versionIndex(parent,item) {
-    
-      
-    },
+    versionIndex(parent, item) {},
     currentVersionIndex: function(item) {
       let id = item.AppliedVersion.id;
       let versions = item.Versions;
@@ -229,11 +235,11 @@ export default {
       }
     },
     previewForm(item) {
-      this.$data.dialog = true
+      this.$data.dialog = true;
       let id = item.id;
       console.log("formId", id);
       this.API.formFormVersion.get(id).then(res => {
-        console.log(res)
+        console.log(res);
       });
     },
     closeDialog(name) {
@@ -250,9 +256,21 @@ export default {
       }
     },
     createForm() {
-      console.log("createForm", this.editedItem);
-      this.desserts.push(this.editedItem);
-      this.close();
+      var name = this.$data.newFormName;
+      this.API.form
+        .add(name)
+        .then(res => {
+          this.$data.snackbarText = this.$i18n.t('alert.addNewForm')
+          this.$data.snackbarColor = "green lighten-2"
+          this.$data.snackbar = true
+          this.$data.newFormName = ""
+          this.$data.newFormMemo = ""
+          this.closeDialog("createDialog");
+          this.loadData();
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     openFormBuilder(item) {
       console.log("open form ", item.formId);
@@ -264,19 +282,19 @@ export default {
         params: { formId: item.formId }
       });
     },
-    setCreateVersionDialog(item){
+    setCreateVersionDialog(item) {
       this.$data.createVersionDialog = true;
-      this.$data.createVersionData = item
-      this.$data.createVersionName = ""
+      this.$data.createVersionData = item;
+      this.$data.createVersionName = "";
     },
     addVersion() {
-      var item = this.$data.createVersionData
-      var name = this.$data.createVersionName
-      var id = item.id
-      console.log(id,name)
-      this.API.formFormVersion.post(id,{"name":name}).then(res=>{
-        console.log(res)
-      })
+      var item = this.$data.createVersionData;
+      var name = this.$data.createVersionName;
+      var id = item.id;
+      console.log(id, name);
+      this.API.formFormVersion.post(id, { name: name }).then(res => {
+        console.log(res);
+      });
     },
     editItem() {
       this.$data.editedItem = this.$data.defaultItem;
@@ -307,14 +325,18 @@ export default {
     },
     preview() {
       this.previewDialog = true;
-    }
-  },
-  beforeMount() {
+    },
+    loadData() {
     this.API.form.get().then(res => {
       console.log("axios form", res.data);
       this.desserts = res.data;
     });
   }
+  },
+  beforeMount() {
+   this.loadData()
+  },
+  
 };
 </script>
 

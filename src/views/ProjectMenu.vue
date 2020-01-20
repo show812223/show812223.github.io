@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import * as apiProject from "../API/ApiProject";
 import { mapActions } from "vuex";
 export default {
   data() {
