@@ -1,6 +1,7 @@
 import FormBuilder from '../views/FormBuilder.vue';
 import CreatedForms from '../views/CreatedForms.vue';
 import ProjectFormResults from '../views/ProjectFormResults.vue'
+import FormRender from '../components/FormRender.vue'
 
 // Vue 安裝 Plugin 時 ( Vue.use ) 會叫用 install 函式，在此時註冊元件
 export function install(Vue) {
@@ -9,6 +10,7 @@ export function install(Vue) {
   Vue.component('sb-form-builder', FormBuilder);
   Vue.component('sb-created-forms', CreatedForms);
   Vue.component('sb-project-form-results', ProjectFormResults);
+  Vue.component('sb-form-render', FormRender)
 }
 
 // 建立 Plugin 物件

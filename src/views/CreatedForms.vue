@@ -2,6 +2,7 @@
   <div id="createdFoems">
     <!-- table -->
     <v-data-table
+      ref="dataTable_form"
       :headers="headers"
       :items="desserts"
       :search="search"
@@ -11,6 +12,7 @@
       height="720px"
       sort-by="CreatedDate.$date"
       sort-desc
+      v-on:click:row="tableClickRow"
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
@@ -18,12 +20,14 @@
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
 
-          <v-btn @click="showDialog('createDialog')">新增表單</v-btn>
+          <v-btn @click="showDialog('createDialog')" color="primary"
+            >新增表單</v-btn
+          >
           <!-- create dialog -->
         </v-toolbar>
       </template>
       <template v-slot:item.AppliedVersion.id="{ item }">
-        <v-chip outlined color="blue" dark>{{
+        <v-chip outlined color="info" dark>{{
           currentVersionIndex(item)
         }}</v-chip>
       </template>
@@ -31,16 +35,17 @@
         {{ dateConvert(item.CreatedDate.$date) }}
       </template>
       <template v-slot:item.action="{ item }">
-        <v-btn class="mr-5" icon color="blue" dark>
+        <v-btn class="mr-5" icon color="info" dark>
           <v-icon @click="setCreateVersionDialog(item)">mdi-plus</v-icon>
         </v-btn>
-        <v-btn class="mr-5" icon color="blue" dark>
+        <v-btn class="mr-5" icon color="info" dark>
           <v-icon @click="editItem(item)">mdi-pencil</v-icon>
         </v-btn>
-        <v-btn icon color="red">
-          <v-icon @click="deleteItem(item)">mdi-delete</v-icon>
+        <v-btn icon color="delete">
+          <v-icon @click="openDeleteDialog(item)">mdi-delete</v-icon>
         </v-btn>
       </template>
+
       <!-- expand table -->
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
@@ -48,24 +53,24 @@
             class="ma-5"
             hide-default-footer
             :headers="expandedHeader"
-            :items="item.Versions"
+            :items="addFormIdToVersions(item)"
           >
             <template v-slot:item.id="{ item }">
-              <v-chip outlined color="blue" dark>
+              <v-chip outlined color="info" dark>
                 {{ versionIndex(desserts, item) }}
               </v-chip>
             </template>
             <template v-slot:item.action="{ item }">
-              <v-btn color="blue" class="mr-1" outlined>應用</v-btn>
+              <v-btn color="info" class="mr-1" outlined>應用</v-btn>
               <v-btn
-                color="blue"
+                color="info"
                 class="mr-1"
                 outlined
                 @click="openFormBuilder(item)"
                 >編輯</v-btn
               >
               <v-btn
-                color="blue"
+                color="info"
                 class="mr-1"
                 outlined
                 @click="previewForm(item)"
@@ -77,65 +82,110 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-model="createDialog" max-width="1000px">
+    <v-dialog v-model="createDialog" max-width="500px">
       <v-card height="100%">
         <v-card-title>
           <span>新增表單</span>
         </v-card-title>
         <v-card-text>
-          <v-text-field
-            v-model="newFormName"
-            required
-            label="表單名稱"
-          ></v-text-field>
-          <v-text-field
-            v-model="newFormMemo"
-            required
-            label="備註"
-          ></v-text-field>
+          <v-form ref="createNewFormForm" lazy-validation>
+            <v-text-field
+              :rules="textRules"
+              v-model="newFormName"
+              required
+              label="表單名稱"
+            ></v-text-field>
+            <v-text-field
+              v-model="newFormMemo"
+              required
+              label="備註"
+            ></v-text-field>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="closeDialog('createDialog')">取消</v-btn>
-          <v-btn dark @click="createForm()">新增</v-btn>
+          <v-btn outlined @click="closeDialog('createDialog')">取消</v-btn>
+          <v-btn color="success" dark @click="createForm()">新增</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="previewDialog">
+    <!-- <v-dialog v-model="previewDialog">
       <v-card class="pa-5">
         <formio
           id="formRender"
           :form="formComponent"
           :options="{ noAlerts: true }"
         ></formio>
-      </v-card> </v-dialog
-    >+
+      </v-card>
+    </v-dialog> -->
 
-    <v-dialog v-model="createVersionDialog">
+<v-lazy>
+    <v-dialog v-model="previewDialog">
+      <FormRender v-model="previewFormData"  />
+    </v-dialog>
+</v-lazy>
+    <v-dialog v-model="createVersionDialog" max-width="500">
       <v-card class="pa-5">
-        <v-card-title>
-          <span>新增表單版本</span>
-        </v-card-title>
+        <v-card-title>新增表單版本： {{ createVersionData.Name }}</v-card-title>
         <v-card-text>
-          <v-text-field
-            v-model="createVersionName"
-            required
-            label="版本名稱"
-          ></v-text-field>
+          <v-form ref="newVersionForm" lazy-validation>
+            <v-text-field
+              :rules="textRules"
+              v-model="createVersionName"
+              required
+              label="版本名稱"
+            ></v-text-field>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="createVersionDialog = false">取消</v-btn>
-          <v-btn dark @click="addVersion()">新增</v-btn>
+          <v-btn outlined @click="createVersionDialog = false">取消</v-btn>
+          <v-btn color="success" dark @click="addVersion()">新增</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar top :color="snackbarColor" v-model="snackbar" :timeout=5000>
-      {{snackbarText}}
-  </v-snackbar>
+    <v-dialog v-model="editFormNameDialog" max-width="300">
+      <v-card>
+        <v-card-title>表單名稱變更</v-card-title>
+        <v-card-text>
+          <v-form ref="editNameForm" lazy-validation>
+            <v-text-field readonly label="表單名稱" :value="editFormName" />
+            <v-text-field
+              outlined
+              ref="editFormNewName"
+              label="新的表單名稱"
+              v-model="newFormName"
+              :rules="textRules"
+            ></v-text-field>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn outlined @click="editFormNameDialog = false">取消</v-btn>
+          <v-btn color="success" @click="updateFormName()"
+            >{{ $t("actions.ok") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
+    <v-dialog v-model="deleteDialog" max-width="300">
+      <v-card class="pa-5">
+        <v-card-title>表單即將被刪除</v-card-title>
+        <v-card-text>確定要刪除"{{ deleteText }}"</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn outlined @click="deleteDialog = false">取消</v-btn>
+          <v-btn color="delete" dark @click="deleteForm()">刪除</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-snackbar top :color="snackbarColor" v-model="snackbar" :timeout="5000">
+      {{ snackbarText }}
+    </v-snackbar>
   </div>
 </template>
 
@@ -143,6 +193,7 @@
 import { Form } from "vue-formio";
 import { API } from "../api.js";
 import axios from "axios";
+import FormRender from "../components/FormRender";
 export default {
   props: {
     API: {
@@ -154,9 +205,6 @@ export default {
     cardHeight: function() {
       console.log("cardHeight", window.innerHeight);
       return window.innerHeight - 170;
-    },
-    formTitle() {
-      return this.$data.editedIndex === -1 ? "新表單" : "編輯表單";
     }
   },
   data() {
@@ -166,13 +214,19 @@ export default {
       previewDialog: false,
       createDialog: false,
       createVersionDialog: false,
-      snackbar:false,
-      snackbarText:"",
-      snackbarColor:"",
+      deleteDialog: false,
+      editFormNameDialog: false,
+      deleteText: "",
+      deleteItem: {},
+      snackbar: false,
+      snackbarText: "",
+      snackbarColor: "",
       createVersionData: {},
       createVersionName: "",
       newFormName: "",
       newFormMemo: "",
+      editFormId: "",
+      editFormName: "",
       search: "",
       headers: [
         { text: "", value: "data-table-expand" },
@@ -190,13 +244,14 @@ export default {
         { text: "建立者", value: "CreatedUserName" },
         { text: "", align: "right", value: "action", sortable: false }
       ],
-      editedIndex: -1,
-      editedItem: {},
-      defaultItem: {}
+      textRules: [value => !!value || this.$i18n.t("form.required")],
+      previewFormData:{formId:"123456",versionId:"456789",templeteId:"",resultId:""}
+
     };
   },
   components: {
-    formio: Form
+    formio: Form,
+    FormRender
   },
   methods: {
     versionIndex(parent, item) {},
@@ -206,6 +261,23 @@ export default {
       let t = versions.find(x => x.id === id);
       let index = versions.indexOf(t);
       return index + 1;
+    },
+    addFormIdToVersions(item) {
+      item.Versions.map(version => {
+        version["formId"] = item.id;
+      });
+      return item.Versions;
+    },
+    tableClickRow(item) {
+      let table = this.$refs.dataTable_form;
+      let current = table.expansion[item.id]
+      if (current){
+        table.expansion[item.id] = false;
+      }
+      table.expansion = {}
+      if (current !== true){
+        table.expansion[item.id] = true;
+      }
     },
     dateConvert(item) {
       let timestemp = item;
@@ -221,6 +293,24 @@ export default {
       return year + "-" + month + "-" + date + " " + hour + ":" + minute;
       console.log("date", timestemp);
     },
+    updateFormName() {
+      if (!this.$refs.editNameForm.validate()) {
+        return;
+      }
+      var newName = JSON.stringify(this.$data.newFormName);
+      var formId = this.$data.editFormId;
+      console.log("newName", newName);
+      this.API.form
+        .updateName(formId, newName)
+        .then(res => {
+          this.showSnackbar(this.$i18n.t("alert.updateFormName"), "success");
+          this.loadData();
+          this.editFormNameDialog = false;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     showDialog(name) {
       switch (name) {
         case "createDialog":
@@ -235,12 +325,19 @@ export default {
       }
     },
     previewForm(item) {
-      this.$data.dialog = true;
       let id = item.id;
-      console.log("formId", id);
-      this.API.formFormVersion.get(id).then(res => {
-        console.log(res);
-      });
+      
+      let data = {formId:item.formId, versionId:item.id,templeteId:"",resultId:""}
+      console.log("formId", data);
+       this.$data.previewFormData = data
+       this.$data.previewDialog = true;
+
+      // this.API.formFormVersion.get(id).then(res => {
+      //   console.log(res);
+      //   let form = { display: "form", components: res.data["Components"] };
+      //   this.$data.formComponent = form;
+      //   this.$data.previewDialog = true;
+      // });
     },
     closeDialog(name) {
       switch (name) {
@@ -256,15 +353,16 @@ export default {
       }
     },
     createForm() {
+      if (!this.$refs.createNewFormForm.validate()) {
+        return;
+      }
       var name = this.$data.newFormName;
       this.API.form
         .add(name)
         .then(res => {
-          this.$data.snackbarText = this.$i18n.t('alert.addNewForm')
-          this.$data.snackbarColor = "green lighten-2"
-          this.$data.snackbar = true
-          this.$data.newFormName = ""
-          this.$data.newFormMemo = ""
+          this.showSnackbar(this.$i18n.t("alert.addNewForm"), "success");
+          this.$data.newFormName = "";
+          this.$data.newFormMemo = "";
           this.closeDialog("createDialog");
           this.loadData();
         })
@@ -272,14 +370,40 @@ export default {
           console.log(error);
         });
     },
+    openDeleteDialog(item) {
+      this.$data.deleteDialog = true;
+      this.$data.deleteText = item.Name;
+      this.$data.deleteItem = item;
+    },
+    deleteForm() {
+      let item = this.$data.deleteItem;
+      let id = item.id;
+      let name = item.name;
+      this.API.form
+        .delete(id)
+        .then(res => {
+          let message = this.$i18n.t("alert.deleteForm", {
+            name: name
+          });
+          this.showSnackbar(message, "success");
+          this.loadData();
+          this.$data.deleteDialog = false;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+    showSnackbar(text, color) {
+      this.$data.snackbarText = text;
+      this.$data.snackbarColor = color;
+      this.$data.snackbar = true;
+    },
     openFormBuilder(item) {
-      console.log("open form ", item.formId);
-      if (item.formId === "") {
-        return;
-      }
+      var formId = item.formId;
+      var versionId = item.id;
       this.$router.push({
         name: "formBuilder",
-        params: { formId: item.formId }
+        params: { formId: formId, versionId: versionId }
       });
     },
     setCreateVersionDialog(item) {
@@ -288,55 +412,44 @@ export default {
       this.$data.createVersionName = "";
     },
     addVersion() {
+      if (!this.$refs.newVersionForm.validate()) {
+        return;
+      }
       var item = this.$data.createVersionData;
       var name = this.$data.createVersionName;
       var id = item.id;
+      var data = JSON.stringify({ name: name });
       console.log(id, name);
-      this.API.formFormVersion.post(id, { name: name }).then(res => {
-        console.log(res);
-      });
+      this.API.formFormVersion
+        .post(id, JSON.stringify(data))
+        .then(res => {
+          this.$data.createVersionDialog = false;
+          this.loadData();
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    editItem() {
-      this.$data.editedItem = this.$data.defaultItem;
-    },
-    editVersionItem(item) {
-      console.log("editVersionItem", item);
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-    },
-    deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("確定要移除表單？") && this.desserts.splice(index, 1);
-    },
-    close() {
-      this.dialog = false;
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      }, 300);
-    },
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
-      } else {
-        this.desserts.push(this.editedItem);
-      }
-      this.close();
+    editItem(item) {
+      console.log(item);
+      this.$data.editFormName = item.Name;
+      this.$data.editFormId = item.id;
+      this.$data.newFormName = "";
+      this.$data.editFormNameDialog = true;
     },
     preview() {
       this.previewDialog = true;
     },
     loadData() {
-    this.API.form.get().then(res => {
-      console.log("axios form", res.data);
-      this.desserts = res.data;
-    });
-  }
+      this.API.form.get().then(res => {
+        console.log("axios form", res.data);
+        this.desserts = res.data;
+      });
+    }
   },
   beforeMount() {
-   this.loadData()
-  },
-  
+    this.loadData();
+  }
 };
 </script>
 

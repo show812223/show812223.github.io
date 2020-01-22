@@ -18,7 +18,7 @@ export default new Router({
       component: ProjectMenu
     },
     {
-      path: '/FormBuilder/:formId?',
+      path: '/FormBuilder/:formId?/:versionId?',
       name: 'formBuilder',
       component: FormBuilder,
     },

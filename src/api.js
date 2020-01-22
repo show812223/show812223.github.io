@@ -2,7 +2,7 @@ import axios from "axios";
 
 const dev = false;
 
-const TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6Il9QSm5NVVNxZ3hWSDJXN2I5VElES2ciLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE1Nzk0OTg1MzIsImV4cCI6MTU3OTUwMjEzMiwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5zeW5jb2JveC5jb20iLCJhdWQiOiJwYW5vOmFsbCIsImNsaWVudF9pZCI6InN5bmNvYm94LWFwaS1zd2FnZ2VyIiwic3ViIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiYXV0aF90aW1lIjoxNTc5NDk4NTMyLCJpZHAiOiJsb2NhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3R1c2VyIiwidW5pcXVlX25hbWUiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdHVzZXJAd2ViaW0uY29tLnR3IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInNjb3BlIjpbInBhbm86YWxsIl0sImFtciI6WyJwd2QiXX0.IWQ7BrSL7TXHP6Ck9-_cdM8fOSCE-CfbqVq3VMbzBcGkoEGdBca9djsw_q9BPQMorIO9KIsH2l_KJ-BEVtYwDgB9Tv7WJjZgzIZSuGFbohWx9ZbCsbK-Zw8zBMvA2UMoByz-6q_DFF8IjMfx5ptAQYptz5V2I7WKVZImjsk2iVwlyk3csJlnq2Fp8dryzLs7guhxMgwYC-kWGVQkb0ODELlNBRcZr0HvuNwYSvUHRFt_kA1fz-7FXPapiZYvm3ZrdZx0D6hf0izguDux_9u8y2zFZEPZJDiXRzNAAn1CU0q9Ju0cfYUgNKHIE6-MwSi_vSd7x6clD6LJ4i0xNLPclQ"
+const TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6Il9QSm5NVVNxZ3hWSDJXN2I5VElES2ciLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE1Nzk2NTkyMzcsImV4cCI6MTU3OTY2MjgzNywiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5zeW5jb2JveC5jb20iLCJhdWQiOiJwYW5vOmFsbCIsImNsaWVudF9pZCI6InN5bmNvYm94LWFwaS1zd2FnZ2VyIiwic3ViIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiYXV0aF90aW1lIjoxNTc5NjU5MjM3LCJpZHAiOiJsb2NhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3R1c2VyIiwidW5pcXVlX25hbWUiOiJ0ZXN0dXNlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InRlc3R1c2VyIiwiZW1haWwiOiJ0ZXN0dXNlckB3ZWJpbS5jb20udHciLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoidGVzdHVzZXJAd2ViaW0uY29tLnR3Iiwic2NvcGUiOlsicGFubzphbGwiXSwiYW1yIjpbInB3ZCJdfQ.IhTY5Ef3wVseqPgS7yzmwt0HKWheovSzA9tUnlbr3dKnic8VLNjQPju4yQH6vxlZT1o7kCqOYOfxsM0QhtCJIs44myrnCJ0cle5CfxM7JtT40JrQ8VcMZgSBqhgPeW_HSIhM0FbxAHdwa8iD91F96IRJuRCC2qVsSucb-BswnpGEpt6BE5qd3cU7lcMhmm2VeYYTZsbkCSDrkL-1wsOLMWT99VMIDcK2ELuIsOip5WPKtbRrS85KfUbIwZtCSWCu2fO3P8ImdxtczAMYmt3XPK5PSQ-GNnmpnV4S_dNHiT2k4PV7myaYnGq5HE9zjp4_OBsTAVsg2Kf-QeoVYdVR7Q"
 const CONFIG = dev
   ? {}
   : {
@@ -21,6 +21,7 @@ const api_base_panoVer = `${api_base}/PanoramaVersion`;
 
 const api_base_form = `${api_base}/Form`;
 const api_base_formFormVersion = `${api_base}/Form`;
+const api_base_formVersion = `${api_base}/FormVersion`;
 const api_base_formGroup = `${api_base}`;
 const api_base_companyFormGroup = `${api_base}/Company`;
 
@@ -31,6 +32,10 @@ const formRequest = axios.create({
 const formFormVersionRequest = axios.create({
   baseURL: `${api_base_formFormVersion}`
 });
+// FormVersion base api
+const formVersionRequest = axios.create({
+  baseURL: `${api_base_formVersion}`
+})
 // FormGroup base api
 const formGroupRequest = axios.create({
   baseURL: `${api_base_formGroup}`
@@ -42,12 +47,20 @@ const CompanyFormGroupRequest = axios.create({
 
 const FormAPI = {
   get: () => formRequest.get("", CONFIG),
-  add:(name,) => formRequest.post(`?formName=${name}`,JSON.stringify("{}"),CONFIG)
+  getById: id => formRequest.get(`${id}`,CONFIG),
+  add:(name) => formRequest.post(`?formName=${name}`,JSON.stringify("{}"),CONFIG),
+  updateName:(id,data)=> formRequest.put(`${id}/Name`,data,CONFIG),
+  delete: id => formRequest.delete(`${id}`,CONFIG)
 };
 const FormFormVersionAPI = {
   get: id => formFormVersionRequest.get(`${id}/FormVersion`, CONFIG),
-  post: (id,data) => formFormVersionRequest.post(`${id}/FormVersion`,data,CONFIG)
+  post: (id,data) => formFormVersionRequest.post(`${id}/FormVersion`,data,CONFIG),
+  updateSchema:(formId,versionId,data)=> formFormVersionRequest.put(`${formId}/FormVersion/${versionId}`,data,CONFIG)
 };
+
+const FormVersionAPI = {
+  get: id=> formVersionRequest.get(`?id=${id}`,CONFIG)
+}
 
 const FormGroupAPI = {
   get: (companyId,groupId) =>formGroupRequest.get(`/FormGroup?companyId=${companyId}&groupId=${groupId}`, CONFIG)
@@ -141,6 +154,7 @@ export const API = {
   map_url: MapAPIURL,
   version: VersionAPI,
   form: FormAPI,
+  formVersion: FormVersionAPI,
   formFormVersion:FormFormVersionAPI,
   formGroup: FormGroupAPI,
   companyFormGroup: CompanyFormGroupAPI
