@@ -1,8 +1,15 @@
 {
     "actions":{
-        "canecl":"取消",
+        "cancel":"取消",
         "ok":"確定",
-        "submit":"送出"
+        "submit":"送出",
+        "apply":"應用",
+        "edit":"編輯",
+        "preview":"預覽",
+        "add":"新增",
+        "delete":"刪除",
+        "update":"更新"
+
     },
     "alert":{
         "addNewForm":"新增表單成功",
@@ -10,7 +17,25 @@
         "updateFormName":"表單更名完成"
     },
     "form":{
-        "required":"*欄位必填"
+        "add": "新增表單",
+        "required":"*欄位必填",
+        "formName":"表單名稱",
+        "memo":"備註",
+        "addNewVersion":"新增表單版本",
+        "versionName":"版本名稱",
+        "updateFormName":"表單名稱變更",
+        "newName":"新的表單名稱",
+        "willDelete":"表單即將被刪除",
+        "sureToDelete":"確定要刪除"
+    },
+    "dataGrid":{
+        "name":"名稱",
+        "activeVersion":"應用版本",
+        "createdTime":"建立時間",
+        "createdUser":"建立者",
+        "memo":"說明",
+        "versionName":"版本名稱",
+        "version":"版號"
     },
     "Drag and Drop a form component":"拖放表單元件到此處",
     "Save":"儲存",

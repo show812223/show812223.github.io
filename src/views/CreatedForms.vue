@@ -16,12 +16,10 @@
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>表單</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
 
           <v-btn @click="showDialog('createDialog')" color="primary"
-            >新增表單</v-btn
+            >{{$t("form.add")}}</v-btn
           >
           <!-- create dialog -->
         </v-toolbar>
@@ -53,28 +51,30 @@
             class="ma-5"
             hide-default-footer
             :headers="expandedHeader"
+            sort-by="index"
+            sort-desc
             :items="addFormIdToVersions(item)"
           >
-            <template v-slot:item.id="{ item }">
+            <template v-slot:item.index="{ item }">
               <v-chip outlined color="info" dark>
-                {{ versionIndex(desserts, item) }}
+                {{ item.index + 1 }}
               </v-chip>
             </template>
             <template v-slot:item.action="{ item }">
-              <v-btn color="info" class="mr-1" outlined>應用</v-btn>
+              <v-btn color="info" class="mr-1" outlined>{{$t('actions.apply')}}</v-btn>
               <v-btn
                 color="info"
                 class="mr-1"
                 outlined
                 @click="openFormBuilder(item)"
-                >編輯</v-btn
+                >{{$t('actions.edit')}}</v-btn
               >
               <v-btn
                 color="info"
                 class="mr-1"
                 outlined
                 @click="previewForm(item)"
-                >預覽</v-btn
+                >{{$t('actions.preview')}}</v-btn
               >
             </template>
           </v-data-table>
@@ -85,7 +85,7 @@
     <v-dialog v-model="createDialog" max-width="500px">
       <v-card height="100%">
         <v-card-title>
-          <span>新增表單</span>
+          <span>{{$t('form.add')}}</span>
         </v-card-title>
         <v-card-text>
           <v-form ref="createNewFormForm" lazy-validation>
@@ -93,69 +93,61 @@
               :rules="textRules"
               v-model="newFormName"
               required
-              label="表單名稱"
+              :label="$t('form.formName')"
             ></v-text-field>
             <v-text-field
               v-model="newFormMemo"
               required
-              label="備註"
+              :label="$t('form.memo')"
             ></v-text-field>
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn outlined @click="closeDialog('createDialog')">取消</v-btn>
-          <v-btn color="success" dark @click="createForm()">新增</v-btn>
+          <v-btn outlined @click="closeDialog('createDialog')">{{$t('actions.cancel')}}</v-btn>
+          <v-btn color="success" dark @click="createForm()">{{$t('actions.add')}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <!-- <v-dialog v-model="previewDialog">
-      <v-card class="pa-5">
-        <formio
-          id="formRender"
-          :form="formComponent"
-          :options="{ noAlerts: true }"
-        ></formio>
-      </v-card>
-    </v-dialog> -->
 
-<v-lazy>
-    <v-dialog v-model="previewDialog">
-      <FormRender v-model="previewFormData"  />
-    </v-dialog>
-</v-lazy>
+    <v-lazy>
+      <v-dialog v-model="previewDialog">
+        <FormRender v-model="previewFormData" />
+      </v-dialog>
+    </v-lazy>
+
     <v-dialog v-model="createVersionDialog" max-width="500">
       <v-card class="pa-5">
-        <v-card-title>新增表單版本： {{ createVersionData.Name }}</v-card-title>
+        <v-card-title>{{$t("form.addNewVersion")}}： {{ createVersionData.Name }}</v-card-title>
         <v-card-text>
           <v-form ref="newVersionForm" lazy-validation>
             <v-text-field
               :rules="textRules"
               v-model="createVersionName"
               required
-              label="版本名稱"
+              :label="$t('form.versionName')"
             ></v-text-field>
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn outlined @click="createVersionDialog = false">取消</v-btn>
-          <v-btn color="success" dark @click="addVersion()">新增</v-btn>
+          <v-btn outlined @click="createVersionDialog = false">{{$t('actions.cancel')}}</v-btn>
+          <v-btn color="success" dark @click="addVersion()">{{$t('actions.add')}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <v-dialog v-model="editFormNameDialog" max-width="300">
       <v-card>
-        <v-card-title>表單名稱變更</v-card-title>
+        <v-card-title>{{$t('form.updateFormName')}}</v-card-title>
         <v-card-text>
           <v-form ref="editNameForm" lazy-validation>
-            <v-text-field readonly label="表單名稱" :value="editFormName" />
+            <v-text-field readonly :label="$t('form.formName')" :value="editFormName" />
             <v-text-field
               outlined
               ref="editFormNewName"
-              label="新的表單名稱"
+              :label="$t('form.newName')"
               v-model="newFormName"
               :rules="textRules"
             ></v-text-field>
@@ -163,22 +155,22 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn outlined @click="editFormNameDialog = false">取消</v-btn>
+          <v-btn outlined @click="editFormNameDialog = false">{{$t('actions.cancel')}}</v-btn>
           <v-btn color="success" @click="updateFormName()"
-            >{{ $t("actions.ok") }}
+            >{{ $t("actions.update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="deleteDialog" max-width="300">
+    <v-dialog v-model="deleteDialog" max-width="330">
       <v-card class="pa-5">
-        <v-card-title>表單即將被刪除</v-card-title>
-        <v-card-text>確定要刪除"{{ deleteText }}"</v-card-text>
+        <v-card-title>{{$t('form.willDelete')}}</v-card-title>
+        <v-card-text>{{$t('form.sureToDelete')}}"{{ deleteText }}"</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn outlined @click="deleteDialog = false">取消</v-btn>
-          <v-btn color="delete" dark @click="deleteForm()">刪除</v-btn>
+          <v-btn outlined @click="deleteDialog = false">{{$t('actions.cancel')}}</v-btn>
+          <v-btn color="delete" dark @click="deleteForm()">{{$t('actions.delete')}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -228,33 +220,44 @@ export default {
       editFormId: "",
       editFormName: "",
       search: "",
-      headers: [
-        { text: "", value: "data-table-expand" },
-        { text: "名稱", align: "left", value: "Name" },
-        { text: "應用版本", value: "AppliedVersion.id", name: "version" },
-        { text: "建立時間", value: "CreatedDate.$date" },
-        { text: "建立者", value: "CreatedUserName" },
-        { text: "說明", value: "memo" },
-        { text: "", align: "center", value: "action", sortable: false }
-      ],
       desserts: [],
-      expandedHeader: [
-        { text: "版次", align: "center", value: "id" },
-        { text: "建立時間", value: "CreatedTime" },
-        { text: "建立者", value: "CreatedUserName" },
-        { text: "", align: "right", value: "action", sortable: false }
-      ],
       textRules: [value => !!value || this.$i18n.t("form.required")],
-      previewFormData:{formId:"123456",versionId:"456789",templeteId:"",resultId:""}
-
+      previewFormData: 
+      {
+        formId: "123456",
+        versionId: "456789",
+        templeteId: "",
+        resultId: ""
+      }
     };
   },
   components: {
     formio: Form,
     FormRender
   },
+  computed:{
+    headers(){
+      return [
+        { text: "", value: "data-table-expand" },
+        { text: this.$i18n.t('dataGrid.name'), align: "left", value: "Name" },
+        { text: this.$i18n.t('dataGrid.activeVersion'), value: "AppliedVersion.id", name: "version" },
+        { text: this.$i18n.t('dataGrid.createdTime'), value: "CreatedDate.$date" },
+        { text: this.$i18n.t('dataGrid.createdUser'), value: "CreatedUserName" },
+        { text: this.$i18n.t('dataGrid.memo'), value: "memo" },
+        { text: "", align: "center", value: "action", sortable: false }
+      ]
+    },
+    expandedHeader(){
+      return [
+        { text: this.$i18n.t('dataGrid.versionName'), align: "center", value: "Name"},
+        { text: this.$i18n.t('dataGrid.version'), align: "center", value: "index" },
+        { text: this.$i18n.t('dataGrid.createdTime'), value: "CreatedTime" },
+        { text: this.$i18n.t('dataGrid.createdUser'), value: "CreatedUserName" },
+        { text: "", align: "right", value: "action", sortable: false }
+      ]
+    }
+  },
   methods: {
-    versionIndex(parent, item) {},
     currentVersionIndex: function(item) {
       let id = item.AppliedVersion.id;
       let versions = item.Versions;
@@ -263,19 +266,20 @@ export default {
       return index + 1;
     },
     addFormIdToVersions(item) {
-      item.Versions.map(version => {
+      item.Versions.map((version, index) => {
         version["formId"] = item.id;
+        version["index"] = index
       });
       return item.Versions;
     },
     tableClickRow(item) {
       let table = this.$refs.dataTable_form;
-      let current = table.expansion[item.id]
-      if (current){
+      let current = table.expansion[item.id];
+      if (current) {
         table.expansion[item.id] = false;
       }
-      table.expansion = {}
-      if (current !== true){
+      table.expansion = {};
+      if (current !== true) {
         table.expansion[item.id] = true;
       }
     },
@@ -325,19 +329,17 @@ export default {
       }
     },
     previewForm(item) {
+      console.log(item)
       let id = item.id;
-      
-      let data = {formId:item.formId, versionId:item.id,templeteId:"",resultId:""}
-      console.log("formId", data);
-       this.$data.previewFormData = data
-       this.$data.previewDialog = true;
+      let data = {
+        formId: item.formId,
+        versionId: item.id,
+        templeteId: "",
+        resultId: ""
+      };
+      this.$data.previewFormData = data;
+      this.$data.previewDialog = true;
 
-      // this.API.formFormVersion.get(id).then(res => {
-      //   console.log(res);
-      //   let form = { display: "form", components: res.data["Components"] };
-      //   this.$data.formComponent = form;
-      //   this.$data.previewDialog = true;
-      // });
     },
     closeDialog(name) {
       switch (name) {
