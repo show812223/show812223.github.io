@@ -2,8 +2,8 @@ import axios from "axios";
 
 const dev = false;
 
-const TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6Il9QSm5NVVNxZ3hWSDJXN2I5VElES2ciLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE1Nzk2ODE0NDcsImV4cCI6MTU3OTY4NTA0NywiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5zeW5jb2JveC5jb20iLCJhdWQiOiJwYW5vOmFsbCIsImNsaWVudF9pZCI6InN5bmNvYm94LWFwaS1zd2FnZ2VyIiwic3ViIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiYXV0aF90aW1lIjoxNTc5NjgxNDQ3LCJpZHAiOiJsb2NhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3R1c2VyIiwidW5pcXVlX25hbWUiOiJ0ZXN0dXNlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InRlc3R1c2VyIiwiZW1haWwiOiJ0ZXN0dXNlckB3ZWJpbS5jb20udHciLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoidGVzdHVzZXJAd2ViaW0uY29tLnR3Iiwic2NvcGUiOlsicGFubzphbGwiXSwiYW1yIjpbInB3ZCJdfQ.NONSylzB0Sf2vg57mO6CyaHQlsD8fcel5M_sNXzh8NxcaRhbCKBV05au6_73nVQqZwKXQQGK_utX5KpsWpbpJAUf4dr75hyBVme-dTjwp-yER3bzyo_-17HPATJKdIOmWKp5WyYHNbn7g8a28XEddYS9g1AV3Jmm_Pd0QoWa5j9PM59qY8s5jv1vRTbFp3v2S-Ol3bHTPf13pvLdxvJxHTU0eWJQoP1PPJk09O5gSubMAFENr_5MX8de7egMmm7VBiSOvsUDLinoioiMBD9VAZAVFI6lZmyITE5KofUMvOxEXPzqbi0ubk_ZqgyGZGz8y20fEGOQsMRgUloNnGEIUQ"
-const CONFIG = dev
+const TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6Il9QSm5NVVNxZ3hWSDJXN2I5VElES2ciLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE1ODA4NzE2NjEsImV4cCI6MTU4MDg3NTI2MSwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5zeW5jb2JveC5jb20iLCJhdWQiOiJwYW5vOmFsbCIsImNsaWVudF9pZCI6InN5bmNvYm94LWFwaS1zd2FnZ2VyIiwic3ViIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiYXV0aF90aW1lIjoxNTgwODcxNjYxLCJpZHAiOiJsb2NhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3R1c2VyIiwidW5pcXVlX25hbWUiOiJ0ZXN0dXNlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InRlc3R1c2VyIiwiZW1haWwiOiJ0ZXN0dXNlckB3ZWJpbS5jb20udHciLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoidGVzdHVzZXJAd2ViaW0uY29tLnR3Iiwic2NvcGUiOlsicGFubzphbGwiXSwiYW1yIjpbInB3ZCJdfQ.IwTYe685TDvDnA58wOGbOU7zuOh1NDYL9rekPzOcQj4sfOU3PRhn27CJ_e3fp9yvxcqki1Ts_6IPOnIt2T80p41EQkEjL_sPNiaGcXUrua4QGgDQaGda2a-w3EsQ38OlSIres9m4V3q9pduB-9FIX_sLwHrziUbbTLyccuLcJXy55ODkpIZgiI-c-uNnWw57gevkN3FSiaGxXvpp4TrDazm1xzS3a6LfLul4rnOPA4KH3VTXKlBngESthqLe9Tcf84IrIYnlbTL4tMM7j2FQLFs-eqgmYS3HvF4-7NcJBXpinnmEeGXp-iUamrL6dddjBjJjJhfTXrnx5Qc_T0fxog"
+const CONFIG = false
   ? {}
   : {
       headers: {
@@ -13,17 +13,16 @@ const CONFIG = dev
     };
 const cors = "http://localhost:5000/";
 const api_base = dev
-  ? `${cors}http://9358f2f6.ngrok.io`
+  ? "https://localhost:44355"
   : "https://api.syncobox.com";
-const api_base_pano = `${api_base}/Panorama`;
-const api_base_map = `${api_base}/PanoramaMap`;
-const api_base_panoVer = `${api_base}/PanoramaVersion`;
 
 const api_base_form = `${api_base}/Form`;
 const api_base_formFormVersion = `${api_base}/Form`;
 const api_base_formVersion = `${api_base}/FormVersion`;
 const api_base_formGroup = `${api_base}`;
 const api_base_companyFormGroup = `${api_base}/Company`;
+const api_base_flow = `${api_base}/Flow`
+const api_base_flowVersion = `${api_base}/FlowVersion`
 
 // Form base api
 const formRequest = axios.create({
@@ -44,6 +43,17 @@ const formGroupRequest = axios.create({
 const CompanyFormGroupRequest = axios.create({
   baseURL: `${api_base_companyFormGroup}`
 });
+
+// Flow base api 
+const flowRequest = axios.create({
+  baseURL: `${api_base_flow}`
+})
+
+// FlowVersion base api
+const flowVersionRequest = axios.create({
+  baseURL: `${api_base_flowVersion}`
+})
+
 
 const FormAPI = {
   get: () => formRequest.get("", CONFIG),
@@ -70,92 +80,31 @@ const CompanyFormGroupAPI = {
   get: id => CompanyFormGroupRequest.get(`${id}/FormGroup`, CONFIG)
 };
 
-const PanoAPIURL = {
-  get: `${api_base_pano}`,
-  updatePano: `${api_base_pano}`,
-  delete: `${api_base_pano}`,
-  getByProject: `${api_base_pano}/GetByProject`,
-  getByUser: `${api_base_pano}/GetByUser`,
-  getPanoFiles: `${api_base_pano}/GetPanoFiles`,
-  getImage: `${api_base_pano}/GetImage`,
-  updateVer: `${api_base_pano}/ApplyVersion`,
-  add: `${api_base_pano}`,
-  updateHotspots: `${api_base_pano}/UpdateHotspots/`
-};
+const FlowAPI = {
+  get:() =>flowRequest.get("",CONFIG),
+  getById:id=> flowRequest.get(`${id}`,CONFIG),
+  create:(name)=>flowRequest.post(`?flowName=${name}`,JSON.stringify("{}"),CONFIG),
+  delete: id => flowRequest.delete(`${id}`,CONFIG),
+  updateName:(id,data)=>flowRequest.put(`${id}/Name`,data,CONFIG),
+  appliedVersion:(flowId, versionId)=>flowRequest.put(`${flowId}/AppliedVersion/${versionId}`,JSON.stringify("{}"),CONFIG)
+}
 
-const PanoAPI = {
-  get: id => panoRequest.get(`${id}`, CONFIG),
-  updatePano: (id, data) => panoRequest.put(`${id}`, data, CONFIG),
-  delete: id => panoRequest.delete(`${id}`, CONFIG),
-  getByProject: (id, data) =>
-    panoRequest.post(`/GetByProject/${id}`, data, CONFIG),
-  getByUser: id => panoRequest.get(`/GetByUser/${id}`, CONFIG),
-  getPanoFiles: id => panoRequest.get(`/GetPanoFiles/${id}`, CONFIG),
-  getImage: (id, name) => panoRequest.get(`/GetImage/${id}/${name}`, CONFIG),
-  updateVersion: data => panoRequest.put(`/ApplyVersion`, data, CONFIG),
-  add: (data, config) =>
-    panoRequest.post("", data, {
-      ...config,
-      ...CONFIG
-    }),
-  updateHotspots: (id, data) =>
-    panoRequest.post(`/UpdateHotspots/${id}`, data, CONFIG)
-};
+const FlowVersion = {
+  getById: id => flowVersionRequest.get(`${id}`,CONFIG),
+  delete: id => flowVersionRequest.delete(`${id},`,CONFIG),
+  create:(data)=>flowVersionRequest.post("",data,CONFIG),
+  update: id => flowVersionRequest.post(`/UpdateSchema/${id}`,data,CONFIG),
+}
 
-const MapAPIURL = {
-  get: `${api_base_map}`,
-  updateInfo: `${api_base_map}`,
-  delete: `${api_base_map}`,
-  getImage: `${api_base_map}/GetImage`,
-  getThumb: `${api_base_map}/GetThumbnail`,
-  getByProject: `${api_base_map}/GetByProject`,
-  add: `${api_base_map}`,
-  updateHotspots: `${api_base_map}/UpdateHotspots`,
-  updateImage: `${api_base_map}/UpdateImage`
-};
-
-// Map 相關的 api
-const MapAPI = {
-  get: id => mapRequest.get(`${id}`, CONFIG),
-  updateInfo: (id, data) => mapRequest.put(`${id}`, data, CONFIG),
-  delete: id => mapRequest.delete(`${id}`, CONFIG),
-  getImage: id => mapRequest.get(`/GetImage/${id}`, CONFIG),
-  getThumb: id => mapRequest.get(`/GetThumbnail/${id}`, CONFIG),
-  getByProject: (id, data) =>
-    mapRequest.post(`/GetByProject/${id}`, data, CONFIG),
-  add: (data, config) => mapRequest.post("", data, config, CONFIG),
-  updateHotspots: (id, data) =>
-    mapRequest.post(`/UpdateHotspots/${id}`, data, CONFIG),
-  updateImage: (data, config) =>
-    mapRequest.post(`/UpdateImage`, data, {
-      ...config,
-      ...CONFIG
-    })
-};
-
-const VersionAPI = {
-  get: id => panoVersionRequest.get(`${id}`, CONFIG),
-  delete: id => panoVersionRequest.delete(`${id}`, CONFIG),
-  getList: (id, data) =>
-    panoVersionRequest.post(`/GetByPano/${id}`, data, CONFIG),
-  add: (data, config) =>
-    panoVersionRequest.post("", data, {
-      ...config,
-      ...CONFIG
-    })
-};
 
 export const API = {
   cors: cors,
   base: api_base,
-  pano: PanoAPI,
-  pano_url: PanoAPIURL,
-  map: MapAPI,
-  map_url: MapAPIURL,
-  version: VersionAPI,
   form: FormAPI,
   formVersion: FormVersionAPI,
   formFormVersion:FormFormVersionAPI,
   formGroup: FormGroupAPI,
-  companyFormGroup: CompanyFormGroupAPI
+  companyFormGroup: CompanyFormGroupAPI,
+  flow: FlowAPI,
+  flowVersion:FlowVersion
 };

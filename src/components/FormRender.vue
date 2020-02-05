@@ -22,6 +22,10 @@ export default {
       template: String,
       resultId: String
     },
+    readOnly:{
+      type: Boolean,
+      default: false
+    },
     API: {
       type: Object,
       default: () => API
@@ -43,10 +47,10 @@ export default {
   },
   computed:{
     option(){
-      return {i18n: this.$i18n.messages}
+      return {i18n: this.$i18n.messages, readOnly: this.$props.readOnly}
     },
     language(){
-      return "en"
+      return this.$i18n.locale
     }
   },
   methods: {
@@ -86,4 +90,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.is-hidden {
+    display: none !important;
+}
+</style>

@@ -25,9 +25,9 @@
       :filter="filter"
       @update:active="openNode"
     >
-      <template v-slot:prepend="{item, open}">
+      <template v-slot:prepend="{ item, open }">
         <v-icon>
-          {{open? "mdi-folder-open":"mdi-folder"}}
+          {{ open ? "mdi-folder-open" : "mdi-folder" }}
         </v-icon>
         <!-- <v-icon  v-else-if="item.hasChildren == false">
           {{"mdi-folder"}}
@@ -41,48 +41,48 @@
 </template>
 
 <script>
-import {API} from '../api.js'
+import { API } from "../api.js";
 export default {
-  data () {
+  data() {
     return {
       search: null,
-      items:[]
-    }
+      items: []
+    };
   },
-  props:{
-    API:{
-      type:Object,
-      default:()=>API
+  props: {
+    API: {
+      type: Object,
+      default: () => API
     },
-    companyId:{
-      type:String,
-      default:"",
+    companyId: {
+      type: String,
+      default: ""
     }
   },
-  beforeMount(){
-    this.API.companyFormGroup.get(this.companyId,"")
-    .then(res =>{
-      console.log("axios form group ", this.companyId, res.data)
-      this.$data.items = res.data
-    }).catch(error =>{
-      console.error("axios form group", this.companyId, error)
-    })
+  beforeMount() {
+    this.API.flow
+      .get()
+      .then(res => {
+        console.log("axios form group ", this.companyId, res.data);
+        this.$data.items = res.data;
+      })
+      .catch(error => {
+        console.error("axios form group", this.companyId, error);
+      });
   },
-  computed:{
-    filter(){
+  computed: {
+    filter() {
       return this.caseSensitive
         ? (item, search, textKey) => item[textKey].indexOf(search) > -1
-        : undefined
+        : undefined;
     }
   },
-  methods:{
-    openNode(item){
-      console.log("openNode",item)
-
+  methods: {
+    openNode(item) {
+      console.log("openNode", item);
     }
   }
-}
+};
 </script>
 
-<style>
-</style>
+<style></style>

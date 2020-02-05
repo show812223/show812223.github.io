@@ -1,10 +1,10 @@
 <template>
   <v-layout wrap >
-    <v-flex sm12 md2 pa-2>
+    <v-flex sm12 md3 pa-2>
       <FormGroup v-bind:companyId="companyId" />
     </v-flex>
     
-    <v-flex sm12 md10 pa-2> 
+    <v-flex sm12 md9 pa-2> 
       <FormResultTable />
     </v-flex>
   </v-layout>

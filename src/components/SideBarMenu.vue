@@ -33,6 +33,8 @@ export default {
         { icon: '', title: '表單製作器', router:'/FormBuilder'},
         { icon: '', title: '表單列表', router:'/CreatedForms'},
         { icon: '', title: '表單填寫結果列表', router:'/ProjectFormResults'},
+        { icon: '', title: '流程一覽表(Flow)', router: '/CreatedFlows'},
+        { icon: '', title: 'project flows', router: '/ProjectFlows'}
       ]
     }
   }

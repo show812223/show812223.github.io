@@ -4,7 +4,10 @@ import Home from './views/Home.vue';
 import FormBuilder from './views/FormBuilder.vue';
 import ProjectMenu from './views/ProjectMenu.vue';
 import ProjectFormResults from './views/ProjectFormResults.vue';
+import ProjectFlows from './views/ProjectFlows.vue'
 import CreatedForms from './views/CreatedForms.vue'
+import CreatedFlows from './views/CreatedFlows.vue'
+import TestFlowBuilder from './views/TestFlowBuilder.vue'
 
 Vue.use(Router);
 
@@ -33,14 +36,29 @@ export default new Router({
       component: ProjectFormResults
     },
     {
+      path: '/ProjectFlows',
+      name: 'projectFlows',
+      component: ProjectFlows
+    },
+    {
       path: '/CreatedForms',
       name: 'createdForms',
       component: CreatedForms
     },
     {
+      path: '/CreatedFlows',
+      name: 'createdFlows',
+      component: CreatedFlows
+    },
+    {
       path: '/Home',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/TestFlowBuilder/:versionId?',
+      name: 'testFlowBuilder',
+      component: TestFlowBuilder,
     },
     {
       path: '**',
