@@ -1,6 +1,6 @@
 {
   "name": "syncoboxform_web",
-  "version": "0.27.0",
+  "version": "0.27.1",
   "private": false,
   "description": "Form compnent for SyncoBox.",
   "scripts": {
@@ -20,7 +20,7 @@
     "font-awesome": "^4.7.0",
     "material-design-icons": "^3.0.1",
     "register-service-worker": "^1.6.2",
-    "syncoboxform": "^0.27.0",
+    "syncoboxform": "^0.27.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.0.2",
     "vue-formio": "^4.0.0",

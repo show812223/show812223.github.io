@@ -14,7 +14,7 @@
     "addNewForm": "新增表單成功",
     "deleteForm": "{name} 刪除成功",
     "updateFormName": "表單更名完成",
-    "addNewForm": "新增流程成功",
+    "addNewFlow": "新增流程成功",
     "updateFlowName": "流程更名完成",
     "deleteFlow": "{name} 刪除成功"
   },

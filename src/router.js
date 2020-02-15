@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import FormBuilder from './views/FormBuilder.vue';
+import FlowBuilder from './views/FlowBuilder.vue'
 import ProjectMenu from './views/ProjectMenu.vue';
 import ProjectFormResults from './views/ProjectFormResults.vue';
 import ProjectFlows from './views/ProjectFlows.vue'
@@ -24,6 +25,11 @@ export default new Router({
       path: '/FormBuilder/:formId?/:versionId?',
       name: 'formBuilder',
       component: FormBuilder,
+    },
+    {
+      path: '/FlowBuilder/:flowVersionId?',
+      name :'flowBuilder',
+      component: FlowBuilder
     },
     {
       path: '/ProjectMenu',

@@ -411,8 +411,8 @@ export default {
     openFlowBuilder(item) {
       var versionId = item.id;
       this.$router.push({
-        name: this.$props.flowBuilderRouterName,
-        params: { versionId: versionId }
+        name: 'flowBuilder',
+        params: { flowVersionId: versionId }
       });
     },
     setCreateVersionDialog(item) {

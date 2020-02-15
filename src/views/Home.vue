@@ -4,7 +4,7 @@
     <!-- <sb-created-forms></sb-created-forms> -->
     <!-- <sb-project-form-results></sb-project-form-results> -->
     <!-- <sb-form-render v-model="formdata" :API="yourAPI" /> -->
-    <sb-created-flows :flowBuilderRouterName="flowBuilderRouterName" />
+    <sb-created-flows :API="yourAPI" :flowBuilderRouterName="flowBuilderRouterName" />
   </div>
 </template>
 
