@@ -76,7 +76,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { FormBuilder, Form } from "vue-formio";
 import * as db from "../db/indexedDB";
 import EditForm from "../formioSettings/editForm.json";
-import { API } from "../api.js";
+import API from "../api.js";
 export default {
   name: "formBuilder",
   props: {

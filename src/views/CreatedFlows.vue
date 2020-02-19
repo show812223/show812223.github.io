@@ -204,7 +204,7 @@
 
 <script>
 import { Form } from "vue-formio";
-import { API } from "../api.js";
+import API from "../api.js";
 import axios from "axios";
 import FormRender from "../components/FormRender";
 export default {
@@ -412,7 +412,7 @@ export default {
       var versionId = item.id;
       this.$router.push({
         name: 'flowBuilder',
-        params: { flowVersionId: versionId }
+        params: { flowVersion: versionId }
       });
     },
     setCreateVersionDialog(item) {

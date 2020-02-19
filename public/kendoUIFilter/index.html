@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="https://demos.telerik.com/kendo-ui/filter/index" />
+    <style>
+      html {
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
+    <title></title>
+    <link
+      rel="stylesheet"
+      href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.default-v2.min.css"
+    />
+
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.all.min.js"></script>
+  </head>
+  <body>
+    <div id="example" class="container" role="application">
+      <div id="filter"></div>
+      <br />
+      <br />
+      <br />
+    </div>
+
+    <style>
+      .container{
+  width: 100% !important;
+}
+      .products {
+        position: relative;
+        width: 200px;
+        height: 300px;
+        margin-bottom: 20px;
+        padding: 10px 10px 62px 10px;
+        text-align: center;
+      }
+
+      .view-details,
+      .view-details:hover {
+        display: block;
+        position: relative;
+        user-select: none;
+      }
+
+      .view-details:after {
+        content: "";
+        display: block;
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0);
+      }
+
+      .view-details:hover strong {
+        color: #de5d20;
+      }
+
+      .main-image {
+        position: relative;
+        width: 200px;
+        height: 200px;
+      }
+
+      .products h2 {
+        color: #ab7829;
+        font-size: 21px;
+        font-weight: normal;
+        padding-top: 25px;
+      }
+
+      .products strong {
+        display: inline-block;
+        color: #de5d20;
+        font-size: 21px;
+        font-weight: normal;
+        padding-top: 25px;
+        padding-bottom: 5px;
+        width: 100%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .price {
+        font-size: 17px;
+        color: #9e9e9e;
+        width: 100%;
+        position: relative;
+        display: inline-block;
+        line-height: 1em;
+      }
+
+      .description {
+        font-size: 17px;
+        color: #848484;
+        width: 100%;
+        display: inline-block;
+        line-height: 1em;
+        padding-top: 15px;
+      }
+
+      .cart-image-wrapper {
+        display: inline-block;
+        float: left;
+        height: 100px;
+        overflow: hidden;
+      }
+
+      #main-section ul li {
+        float: left;
+      }
+
+      #main-section {
+        line-height: 0;
+        max-width: 882px;
+      }
+
+      #listView {
+        display: inline-block;
+        width: 100%;
+        border-bottom: 0;
+        box-sizing: border-box;
+      }
+    </style>
+
+    <!-- 事件處理 -->
+    <script>
+      $(document).ready(function (){
+        var dataSource = new kendo.data.DataSource({
+            transport: {},
+            pageSize: 4,
+            schema: {}
+          });
+        $("#filter").kendoFilter({
+          dataSource:dataSource,
+          fields:[{ name: "name", type: "string", label: "Name" },
+                    { name: "price", type: "number", label: "Price" },
+                    { name: "description", type: "string", label: "Description" }],
+          expression: {
+                logic: "and",
+                filters: []
+              }
+        })
+      })
+      
+      window.addEventListener("message", function(e) {
+        
+        var options = e.data.params.options;
+        var kendoFilter = $("#filter").getKendoFilter();
+        kendoFilter.setOptions(options);
+        
+
+      });
+      //回傳訊息給 .vue
+      window.parent.document
+        .getElementById("saveLogic")
+        .addEventListener("click", getRule);
+      window.parent.document
+        .getElementById("closeLogic")
+        .addEventListener("click", function() {
+          getRule();
+        });
+      window.parent.document
+        .getElementById("cancelLogic")
+        .addEventListener("click", function() {
+        });
+
+      window.parent.document
+        .getElementById("pathDelete")
+        .addEventListener("click", function() {
+          getRule();
+        });
+
+
+      // 取得kendo filter data
+      function getRule() {
+        var KendoFilterRules  = $("#filter").data("kendoFilter").filterModel
+        console.log("*** KendoFilterRules",KendoFilterRules)
+        if (KendoFilterRules.filters === undefined){
+          KendoFilterRules.filters = []
+        }
+        var data = JSON.stringify(KendoFilterRules)
+        
+        window.parent.postMessage(
+          {
+            cmd: "fromIframe",
+            params: { json: data }
+          },
+          "*"
+        );
+      }
+    </script>
+  </body>
+</html>

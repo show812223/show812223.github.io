@@ -12,7 +12,7 @@
 
 <script>
 import { FormBuilder, Form } from "vue-formio";
-import { API } from "../api.js";
+import API from "../api.js";
 export default {
   name: "formPreview",
   props: {

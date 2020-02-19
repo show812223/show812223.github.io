@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { API } from "../api.js";
+import API from "../api.js";
 // import syncoboxfrom from "../components/index";
 import syncoboxform from 'syncoboxform'
 Vue.use(syncoboxform);

@@ -13,7 +13,7 @@
 <script>
 import FormGroup from '../components/FormGroup'
 import FormResultTable from '../components/FormResultTable'
-import {API} from '../api.js'
+import API from '../api.js'
 export default {
   props:{
     API:{

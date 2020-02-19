@@ -2,13 +2,12 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import FormBuilder from './views/FormBuilder.vue';
-import FlowBuilder from './views/FlowBuilder.vue'
 import ProjectMenu from './views/ProjectMenu.vue';
 import ProjectFormResults from './views/ProjectFormResults.vue';
 import ProjectFlows from './views/ProjectFlows.vue'
 import CreatedForms from './views/CreatedForms.vue'
 import CreatedFlows from './views/CreatedFlows.vue'
-import TestFlowBuilder from './views/TestFlowBuilder.vue'
+import FlowBuilder from './views/FlowBuilder.vue'
 
 Vue.use(Router);
 
@@ -27,8 +26,8 @@ export default new Router({
       component: FormBuilder,
     },
     {
-      path: '/FlowBuilder/:flowVersionId?',
-      name :'flowBuilder',
+      path: '/FlowBuilder/:flowVersion?',
+      name: 'flowBuilder',
       component: FlowBuilder
     },
     {
@@ -60,11 +59,6 @@ export default new Router({
       path: '/Home',
       name: 'home',
       component: Home
-    },
-    {
-      path: '/TestFlowBuilder/:versionId?',
-      name: 'testFlowBuilder',
-      component: TestFlowBuilder,
     },
     {
       path: '**',

@@ -21,7 +21,7 @@ export default new Vuetify({
         info: "#2196F3",
         success: "#4CAF50",
         warning: "#FFC107",      
-        delete: "#FF5252"
+        delete: "#FF5252",
       }
     }
   }

@@ -183,7 +183,7 @@
 
 <script>
 import { Form } from "vue-formio";
-import { API } from "../api.js";
+import API from "../api.js";
 import axios from "axios";
 import FormRender from "../components/FormRender";
 export default {
@@ -442,7 +442,7 @@ export default {
       this.previewDialog = true;
     },
     loadData() {
-      this.API.form.get().then(res => {
+      this.API.form.getAll().then(res => {
         console.log("axios form", res.data);
         this.desserts = res.data;
       });

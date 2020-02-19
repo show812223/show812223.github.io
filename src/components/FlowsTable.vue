@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { API } from "../api.js";
+import API from "../api.js";
 export default {
   props: {
     API: {
