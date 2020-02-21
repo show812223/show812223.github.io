@@ -4,13 +4,13 @@
       <SideBarMeun />
     </v-navigation-drawer>
 
-    <!-- <v-app-bar app dark>
+    <v-app-bar app dark inverted-scroll>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>WeFrom</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-select v-model="$root.$i18n.locale" :items="langs" item-value="value" item-text="key"/>
       
-    </v-app-bar> -->
+    </v-app-bar>
 
     <v-content>
       <router-view />
@@ -41,7 +41,7 @@ export default Vue.extend({
     }
   },
   data: () => ({
-    drawer: null,
+    drawer: true,
     langs: [{key:"繁體中文", value:"zh-TW"},{key:"English",value:"en"}],
   })
 });

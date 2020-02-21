@@ -5,7 +5,13 @@
       v-bind:value="value.versionId"
       v-on:input="$emit('input', $event.target.value)"
     />
-    <Form id="formRender" ref="formRender" :form="schema" :language="language"  :options="option"/>
+    <Form
+      id="formRender"
+      ref="formRender"
+      :form="schema"
+      :language="language"
+      :options="option"
+    />
     <v-progress-linear :active="progress" indeterminate color="info" />
   </div>
 </template>
@@ -16,7 +22,7 @@ import API from "../api.js";
 export default {
   name: "formPreview",
   props: {
-    value: {
+    formValues: {
       formId: String,
       versionId: String,
       template: String,
@@ -35,12 +41,8 @@ export default {
     return {
       schema: { display: "form", components: [] },
       progress: true,
+      value:this.$props.formValues
     };
-  },
-  watch: {
-    value: function(val) {
-      this.loadForm();
-    }
   },
   components: {
     Form
@@ -56,13 +58,13 @@ export default {
   methods: {
     loadForm() {
       console.log("****** form perview");
-      console.log("form id", this.$props.value.formId);
-      console.log("version id", this.$props.value.versionId);
-      
+      console.log("form id", this.$data.value.formId);
+      console.log("version id", this.$data.value.versionId);
+
       this.$data.schema = { display: "form", components: [] };
       this.$data.progress = true;
       this.API.formVersion
-        .get(this.$props.value.versionId)
+        .get(this.$data.value.versionId)
         .then(res => {
           var data = res["data"];
           var name = res.Name;
@@ -74,14 +76,22 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          
         })
         .finally(() => {
           this.$data.progress = false;
         });
     },
-    test() {
-      this.loadForm();
-      console.log("preview", this.$data.schema);
+    getSubmiton(){ // 取得formio的 資料
+      console.log("*** getSubmiton")
+      var formData = this.$refs.formRender.formio.data
+      // 回傳給TaskRenderView
+      this.$emit("poatTaskResult",formData)
+    },
+    getValue(value){
+      console.log("*** getValue",value)
+      this.$data.value = value
+      this.loadForm()
     }
   },
   beforeMount() {
@@ -92,6 +102,6 @@ export default {
 
 <style>
 .is-hidden {
-    display: none !important;
+  display: none !important;
 }
 </style>

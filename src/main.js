@@ -10,10 +10,15 @@ import i18n from './i18n'
 // import scss from './styles.scss';
 import formiojs from '../node_modules/formiojs/i18n'
 
+
 import "syncobox-flow/dist/syncobox-flow.css"
-import "syncobox-flow/src/components/formflow.css"
 import syncoboxflow from 'syncobox-flow';
 Vue.use(syncoboxflow);
+
+// kendo 
+import '@progress/kendo-theme-default/dist/all.css'
+import { Grid } from '@progress/kendo-vue-grid'
+Vue.component('Grid', Grid);
 
 Vue.use(Vuex)
 Vue.use(vuetify)

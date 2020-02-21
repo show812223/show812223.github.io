@@ -17,10 +17,8 @@ export default {
     return {
       versionId: this.$route.params.flowVersion,
       iframeSrc: "/kendoUIFilter/index.html",
-      companyId: "ff526057-1998-43a7-9847-4623712eb980"
+      companyId: "54f90bfb-ae35-4529-90cf-fb486251cdaf"
     };
   }
 };
 </script>
-<style>
-</style>

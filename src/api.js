@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "./store";
 
-const TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6Il9QSm5NVVNxZ3hWSDJXN2I5VElES2ciLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE1ODIwOTQ4OTYsImV4cCI6MTU4MjA5ODQ5NiwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5zeW5jb2JveC5jb20iLCJhdWQiOiJwYW5vOmFsbCIsImNsaWVudF9pZCI6InN5bmNvYm94LWFwaS1zd2FnZ2VyIiwic3ViIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiYXV0aF90aW1lIjoxNTgyMDk0ODk2LCJpZHAiOiJsb2NhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3R1c2VyIiwidW5pcXVlX25hbWUiOiJ0ZXN0dXNlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InRlc3R1c2VyIiwiZW1haWwiOiJ0ZXN0dXNlckB3ZWJpbS5jb20udHciLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoidGVzdHVzZXJAd2ViaW0uY29tLnR3Iiwic2NvcGUiOlsicGFubzphbGwiXSwiYW1yIjpbInB3ZCJdfQ.Wpb2vRDzZzz8Ng8xPi_jdh2017uKejTrZBMGuXzgz7rToFKibFiyMlhGcak5f53llNxPWDtoriM8ovTwGLaE2S1MaQ_eVZLeq1UnKWgdzbSijydzznXPrFCIlyPeaTeP7I5LilRqdgSivkp39j9KqexvT_jGl5uGnEzBSJNN1gd6vELFBEYz_rfmbNi8evlKsFu4JSbuAyxbtmBDmQ8QnY-qePuuxULgg2w6es5kM6qXhBSd8pcHm7B3nWZCnWmv-qLJ9i5Kz72Zk284tcOAqyC4-7JlT0v1DCODWbzlPnjI0Bx-PBbREIymXXsrSoMYCG9yKvCjoxx3DCcfHN5QHA";
+const TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6Il9QSm5NVVNxZ3hWSDJXN2I5VElES2ciLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE1ODIyNTQzMTUsImV4cCI6MTU4MjI1NzkxNSwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5zeW5jb2JveC5jb20iLCJhdWQiOiJwYW5vOmFsbCIsImNsaWVudF9pZCI6InN5bmNvYm94LWFwaS1zd2FnZ2VyIiwic3ViIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiYXV0aF90aW1lIjoxNTgyMjU0MzE1LCJpZHAiOiJsb2NhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3R1c2VyIiwidW5pcXVlX25hbWUiOiJ0ZXN0dXNlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNjY5ZGQwYWYtNmViMS00ZmM4LThlZmItOTY3MzhkYzcwNmRmIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InRlc3R1c2VyIiwiZW1haWwiOiJ0ZXN0dXNlckB3ZWJpbS5jb20udHciLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoidGVzdHVzZXJAd2ViaW0uY29tLnR3Iiwic2NvcGUiOlsicGFubzphbGwiXSwiYW1yIjpbInB3ZCJdfQ.dR0y75fYyEQSFwkXqxZJESUbaxukxcOXNLP_2zwgMvAMbCzSIsVA6QwDv6tbibAv1mQWxLUg89h6ShJ39Ee0Cl37wUnfWrQ7w0gRLXfLq9VQqjAvM1dAs0yeirHRzC8pfJRzsfi08bAjT4qh2KGV5E5JuKsEeKf9QtS5WY1MyZPo0ETpR4nJWhJjBzBv3eTTreJOrTTt2aGXh0LA8IqM9Vkb4B5deVXkMW2_BiPrZI2-E0ZfXJRbHFqbb6gaU_f_-vi8lUeMaPoxpHyY6HjNOPXwYUpBJuwaIM8ZbgEYPRQL3ACfbHt3OsyUaZoncFolBwI46z5bWSrt6w77EO3rUA";
 
 const CONFIG = {
   headers: {
@@ -10,6 +10,7 @@ const CONFIG = {
   }
 };
 
+
 const BLOBCONFIG = {
   headers: {
     Authorization: `bearer ${TOKEN}`
@@ -17,7 +18,11 @@ const BLOBCONFIG = {
   responseType: "blob"
 };
 
-const api_base = "https://api.syncobox.com";
+const dev = true
+const api_base = dev
+  ? "https://localhost:44355"
+  : "https://api.syncobox.com";
+
 const api_base_test = `${api_base}/v1/Test`;
 const api_base_pano = `${api_base}/Panorama`;
 const api_base_map = `${api_base}/PanoramaMap`;
@@ -31,6 +36,8 @@ const api_base_companyFormGroup = `${api_base}/Company`;
 const api_base_company = `${api_base}/Company`;
 const api_base_flow = `${api_base}/Flow`;
 const api_base_flowVersion = `${api_base}/FlowVersion`;
+const api_base_flowResult = `${api_base}/FlowResult`;// TODO:
+const api_base_flowTaskResult = `${api_base}/FlowTaskResult`// TODO:
 
 // Panorama base api
 const panoRequest = axios.create({
@@ -77,6 +84,14 @@ const flowRequest = axios.create({
 // FlowVersion base api
 const flowVersionRequest = axios.create({
   baseURL: `${api_base_flowVersion}`
+});
+// FlowResult base api //TODO:
+const flowResultRequest = axios.create({
+  baseURL: `${api_base_flowResult}`
+});
+// FlowTaskResult base api //TODO:
+const flowTaskResultRequest = axios.create({
+  baseURL: `${api_base_flowTaskResult}`
 });
 
 // pano 相關的 URL
@@ -229,6 +244,19 @@ const FlowVersion = {
   postUpdate: (id, data) => flowVersionRequest.post(`/UpdateSchema/${id}`, data, CONFIG)
 };
 
+// FlowResult 相關的 API // TODO:
+const FlowResultAPI = {
+  get:id => flowResultRequest.get(`${id}`,CONFIG),
+  create: flowVersionId => flowResultRequest.post(`/CreateByFlowVersionId/${flowVersionId}`,JSON.stringify("{}"),CONFIG),
+  delete: id => flowResultRequest.delete(`${id}`,CONFIG)
+}
+
+// FlowTaskResult 相關的 API // TODO:
+const FlowTaskResultAPI = {
+  get:id => flowTaskResultRequest.get(`${id}`,CONFIG),
+  postFormResult: (id,data) => flowTaskResultRequest.post(`/PostFormResult/${id}`,JSON.stringify("{}"),CONFIG),
+}
+
 const CompanyAPI = {
     get:()=>companyRequest.get("", CONFIG),
     get: companyId => CompanyFormGroupRequest.get(`${companyId}`, CONFIG),
@@ -251,5 +279,7 @@ export default {
   companyFormGroup: CompanyFormGroupAPI,
   company:CompanyAPI,
   flow: FlowAPI,
-  flowVersion: FlowVersion //跟上一條flowVersion相同功能(其昌)
+  flowVersion: FlowVersion, 
+  flowResult:FlowResultAPI,//TODO:
+  flowTaskResult:FlowTaskResultAPI//TODO:
 };

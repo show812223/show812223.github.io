@@ -23,7 +23,7 @@
       item-key="id"
       :search="search"
       :filter="filter"
-      @update:active="openNode"
+      @update:active="clickFlowVersion"
     >
       <template v-slot:prepend="{ item, open }">
         <v-icon>
@@ -64,7 +64,9 @@ export default {
       .get()
       .then(res => {
         console.log("axios form group ", this.companyId, res.data);
+        var All = {id : "",name:"All"}
         this.$data.items = res.data;
+        this.$data.items.unshift(All)
       })
       .catch(error => {
         console.error("axios form group", this.companyId, error);
@@ -78,8 +80,15 @@ export default {
     }
   },
   methods: {
-    openNode(item) {
-      console.log("openNode", item);
+    clickFlowVersion(flowId) {
+      
+      if (flowId.length > 0) {
+        // get flow Object
+        var flow = this.$data.items.find(x=>x.id === flowId[0])
+        this.$emit("clickFlowVersion", flow);
+      }else{
+        this.$emit("clickFlowVersion", {});
+      }
     }
   }
 };
